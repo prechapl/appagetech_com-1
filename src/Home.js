@@ -14,9 +14,9 @@ import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLigh
 let cubeGenerator, hdrEnvMap;
 
 // Texture width for simulation
-let WIDTH = 256;
+let WIDTH = 512;
 // Water size in system units
-let BOUNDS = 256;
+let BOUNDS = 512;
 var BOUNDS_HALF = BOUNDS * 0.5;
 var controls;
 var camera, scene, renderer;
@@ -44,37 +44,23 @@ class Home extends Component {
   }
 
   lighting = () => {
-    // var sun2 = new THREE.DirectionalLight(0xffffff, 0.6);
-    // light1.position.set(20, 500, 100);
-    // scene.add(sun2);
-    const spotLight1 = new THREE.SpotLight(0xffffff, 1, 0, Math.PI / 3);
-    spotLight1.position.set(0, 50, 100);
+    const spotLight1 = new THREE.SpotLight(0x0b0038, 1, 0, Math.PI / 3);
+    spotLight1.position.set(100, 100, 100);
     spotLight1.lookAt(0, 0, 0);
-    spotLight1.penumbra = 1;
+    // spotLight1.penumbra = 1;
     spotLight1.angle = 1.05;
-    const spotLightHelper1 = new THREE.SpotLightHelper(spotLight1);
-    scene.add(spotLightHelper1);
+    // const spotLightHelper1 = new THREE.SpotLightHelper(spotLight1);
+    // scene.add(spotLightHelper1);
     scene.add(spotLight1);
 
-    // RectAreaLightUniformsLib.init();
-    // Red
-    // this.rectLight3 = new THREE.RectAreaLight(0xfb3f3f, 1, 8, 50);
-    // this.rectLight3.position.x = 8;
-    // this.rectLight3.position.z = 230;
-    // this.rectLight3.position.y = 230;
-
-    // this.rectLight3.lookAt(0, 0, 215);
-    // scene.add(this.rectLight3);
-    // const helper3 = new THREE.RectAreaLightHelper(this.rectLight3);
-    // this.rectLight3.add(helper3);
-    //Green 2
-    // this.rectLight5 = new THREE.RectAreaLight(0xff009c, 1, 5, 50);
-    // this.rectLight5.position.set(12, 0, 230);
-
-    // this.rectLight5.lookAt(0, 0, 215);
-    // const helper5 = new THREE.RectAreaLightHelper(this.rectLight5);
-    // this.rectLight5.add(helper5);
-    // scene.add(this.rectLight5);
+    const spotLight2 = new THREE.SpotLight(0x680056, 1, 0, Math.PI / 3);
+    spotLight2.position.set(-300, -200, 250);
+    spotLight2.lookAt(0, 0, 0);
+    // spotLight2.penumbra = 1;
+    spotLight2.angle = 1.05;
+    // const spotLightHelper2 = new THREE.SpotLightHelper(spotLight2);
+    // scene.add(spotLightHelper2);
+    scene.add(spotLight2);
   };
 
   sceneSetup = () => {
@@ -121,7 +107,7 @@ class Home extends Component {
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
       .setPath("textures/")
-      .load("diyHdri_04d.hdr", function(texture) {
+      .load("diyHdri_04f.hdr", function(texture) {
         cubeGenerator = new EquirectangularToCubeGenerator(texture, {
           resolution: 1024
         });
@@ -146,12 +132,13 @@ class Home extends Component {
         };
         const iconParams = {
           envMap: hdrEnvMap,
-          envMapIntensity: 1,
+          envMapIntensity: 5,
           // emissive: 0xfff000,
           // emissiveIntensity: 0.2,
-          color: 0xfad44b,
-          metalness: 0.95,
-          roughness: 0.1
+          color: 0x302203,
+          // color: 0xfad44b,
+          metalness: 1,
+          roughness: 0.15
         };
         const yPos = 0;
         const zPos = 215;
@@ -296,8 +283,8 @@ class Home extends Component {
         });
 
         const initWater = () => {
-          // var materialColor = 0x000000;
-          const materialColor = 0xffffff;
+          var materialColor = 0x000000;
+          // const materialColor = 0xffffff;
           // var materialColor = 0x010204;
 
           var geometry = new THREE.PlaneBufferGeometry(
@@ -336,7 +323,7 @@ class Home extends Component {
           material.defines.BOUNDS = BOUNDS.toFixed(1);
           waterUniforms = material.uniforms;
           waterMesh = new THREE.Mesh(geometry, material);
-          waterMesh.rotation.x = Math.PI / 2;
+          waterMesh.rotation.x = 2 * Math.PI;
           waterMesh.matrixAutoUpdate = false;
           waterMesh.updateMatrix();
           scene.add(waterMesh);
@@ -346,7 +333,7 @@ class Home extends Component {
             geometryRay,
             new THREE.MeshBasicMaterial({ color: 0xffffff, visible: false })
           );
-          // meshRay.rotation.x = Math.PI / 2;
+          meshRay.rotation.x = 2 * Math.PI;
           meshRay.matrixAutoUpdate = false;
           meshRay.updateMatrix();
           scene.add(meshRay);
