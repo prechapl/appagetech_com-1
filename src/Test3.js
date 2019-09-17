@@ -12,36 +12,7 @@ import { PMREMGenerator } from "three/examples/jsm/pmrem/PMREMGenerator.js";
 import { PMREMCubeUVPacker } from "three/examples/jsm/pmrem/PMREMCubeUVPacker.js";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 import { SimplexNoise } from "three/examples/jsm/math/SimplexNoise.js";
-<<<<<<< HEAD
-
-let cubeGenerator, hdrEnvMap;
-let logo, about, contact, projects, client;
-let intersected;
-
-// Texture width for simulation
-let WIDTH = 512;
-// Water size in system units
-let BOUNDS = 256;
-var BOUNDS_HALF = BOUNDS * 0.5;
-var controls;
-var camera, scene, renderer;
-var mouseMoved = false;
-var mouseCoords = new THREE.Vector2();
-var raycaster = new THREE.Raycaster();
-var waterMesh;
-var meshRay;
-var gpuCompute;
-var heightmapVariable;
-var waterUniforms;
-var smoothShader;
-var readWaterLevelShader;
-var readWaterLevelRenderTarget;
-var readWaterLevelImage;
-var waterNormal = new THREE.Vector3();
-
-var simplex = new SimplexNoise();
-=======
-import About from "./2D/About";
+// import About from "./2D/About";
 
 let camera, glScene, cssScene, glRenderer, cssRenderer, controls, container;
 let cubeGenerator, pmremGenerator, pmremCubeUVPacker;
@@ -61,26 +32,14 @@ let mouseCoords = new THREE.Vector2();
 let raycaster = new THREE.Raycaster();
 let WIDTH = 512;
 let BOUNDS = 256;
-let zPosition2D = -2000;
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show2D: false
-    };
-  }
+class Test3 extends Component {
   componentDidMount() {
-    console.log("mounted");
     this.initialize();
     this.loadAssets();
-<<<<<<< HEAD
-=======
     this.initWater();
     this.update();
-    // this.rayCast();
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
+    this.rayCast();
     this.lighting();
   }
 
@@ -91,18 +50,6 @@ class Home extends Component {
     spotLight1.penumbra = 1;
     spotLight1.angle = 1;
     // const spotLightHelper1 = new THREE.SpotLightHelper(spotLight1);
-<<<<<<< HEAD
-    // scene.add(spotLightHelper1);
-    scene.add(spotLight1);
-  };
-
-  sceneSetup = () => {
-    this.container = document.createElement("div");
-    document.body.appendChild(this.container);
-    scene = new THREE.Scene();
-    // scene.background = new THREE.Color(0x000000);
-    scene.background = new THREE.Color(0xffffff);
-=======
     // glScene.add(spotLightHelper1);
     glScene.add(spotLight1);
   };
@@ -123,6 +70,7 @@ class Home extends Component {
     var cssRenderer = new CSS3DRenderer();
     cssRenderer.setSize(window.innerWidth, window.innerHeight);
     cssRenderer.domElement.style.position = "absolute";
+    glRenderer.domElement.style.zIndex = 0;
     cssRenderer.domElement.style.top = 0;
     return cssRenderer;
   };
@@ -145,26 +93,14 @@ class Home extends Component {
   };
 
   createCssObject = () => {
-    const element = document.createElement("img");
+    let element = document.createElement("img");
     element.src = "textures/star.png";
 
-    // const refComponent = React.createElement(About);
-    // console.log("refComponent", refComponent);
-    // const refComponent = document.createElement("About", {
-    //   ref: this.aboutRef
-    // });
-    // const refComponent = document.createElement("div");
-    // const comp = About;
-    // refComponent.appendChild(About);
-
-    const div = document.createElement("h1");
-    const node = document.createTextNode("Insert 2D Content Here!");
+    let div = document.createElement("h1");
+    let node = document.createTextNode("Insert 2D Content Here!");
     div.appendChild(node);
-
     // var cssObject = new CSS3DObject(element);
-    const cssObject = new CSS3DObject(div);
-    cssObject.position.z = zPosition2D;
-
+    var cssObject = new CSS3DObject(div);
     return cssObject;
   };
 
@@ -176,25 +112,14 @@ class Home extends Component {
   };
 
   initialize = () => {
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
     camera = new THREE.PerspectiveCamera(
       30,
       window.innerWidth / window.innerHeight,
       0.25,
-      10000
+      2200
     );
     camera.position.set(0, 0, 224);
     camera.lookAt(0, 0, 0);
-<<<<<<< HEAD
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.gammaOutput = true;
-    this.container.appendChild(renderer.domElement);
-    // controls = new OrbitControls(camera, renderer.domElement);
-    // controls.target.set(0, 0, 215);
-    // controls.update();
-=======
     glRenderer = this.createGlRenderer();
     cssRenderer = this.createCssRenderer();
     container = document.createElement("div");
@@ -203,24 +128,26 @@ class Home extends Component {
     cssRenderer.domElement.appendChild(glRenderer.domElement);
     glScene = new THREE.Scene();
     cssScene = new THREE.Scene();
-    controls = new OrbitControls(camera, glRenderer.domElement);
-    controls.target.set(0, 0, 0);
-
-    // console.log("window.innerWidth", window.innerWidth);
-
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
+    // controls = new OrbitControls(camera, glRenderer.domElement);
+    // controls.target.set(0, 0, 2000);
+    // controls.update();
+    this.embed2DPage(
+      // 1500,
+      // 1000,
+      // window.innerWidth,
+      // window.innerHeight,
+      500,
+      500,
+      new THREE.Vector3(0, 0, -1800),
+      new THREE.Vector3(0, 0, 0)
+    );
     window.addEventListener("resize", this.onWindowResize, false);
     document.addEventListener("mousemove", this.onDocumentMouseMove, false);
     document.addEventListener("touchstart", this.onDocumentTouchStart, false);
     document.addEventListener("touchmove", this.onDocumentTouchMove, false);
-    document.addEventListener("mousedown", this.onDocumentMouseDown, false);
   };
-  onClick = () => {
-    console.log("clicked");
-    this.setState(() => ({ show2D: true }));
-  };
+
   loadAssets = () => {
-    let onClick = this.onClick.bind(this);
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
       .setPath("textures/")
@@ -228,25 +155,12 @@ class Home extends Component {
         cubeGenerator = new EquirectangularToCubeGenerator(texture, {
           resolution: 512
         });
-<<<<<<< HEAD
-        cubeGenerator.update(renderer);
-        const pmremGenerator = new PMREMGenerator(
-          cubeGenerator.renderTarget.texture
-        );
-        pmremGenerator.update(renderer);
-        const pmremCubeUVPacker = new PMREMCubeUVPacker(
-          pmremGenerator.cubeLods
-        );
-        pmremCubeUVPacker.update(renderer);
-        hdrEnvMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-=======
         cubeGenerator.update(glRenderer);
         pmremGenerator = new PMREMGenerator(cubeGenerator.renderTarget.texture);
         pmremGenerator.update(glRenderer);
         pmremCubeUVPacker = new PMREMCubeUVPacker(pmremGenerator.cubeLods);
         pmremCubeUVPacker.update(glRenderer);
         const hdrEnvMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
 
         // Models
         const typeParams = {
@@ -258,11 +172,7 @@ class Home extends Component {
         };
         const iconParams = {
           envMap: hdrEnvMap,
-<<<<<<< HEAD
-          envMapIntensity: 4,
-=======
           envMapIntensity: 5,
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
           color: 0x694112,
           metalness: 1,
           roughness: 0.05
@@ -292,11 +202,7 @@ class Home extends Component {
           gltf.scene.traverse(function(child) {
             if (child.isMesh) {
               child.material = new THREE.MeshStandardMaterial(iconParams);
-<<<<<<< HEAD
-=======
               child.scale.copy(scale);
-              child.callback = () => onClick();
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
               logo = child;
             }
           });
@@ -328,11 +234,10 @@ class Home extends Component {
               contact = child;
             }
           });
+          glScene.add(gltf.scene);
           gltf.scene.position.y = yPos;
           gltf.scene.position.z = zPos;
           gltf.scene.rotation.z = zRot;
-          glScene.add(gltf.scene);
-          contact.callback = () => onClick();
         });
 
         const aboutType = new GLTFLoader().setPath("/models/");
@@ -362,7 +267,6 @@ class Home extends Component {
           gltf.scene.position.z = zPos;
           gltf.scene.rotation.z = zRot;
           glScene.add(gltf.scene);
-          about.callback = () => onClick();
         });
 
         const projectsType = new GLTFLoader().setPath("/models/");
@@ -392,7 +296,6 @@ class Home extends Component {
           gltf.scene.position.z = zPos;
           gltf.scene.rotation.z = zRot;
           glScene.add(gltf.scene);
-          projects.callback = () => onClick();
         });
 
         const clientType = new GLTFLoader().setPath("/models/");
@@ -422,10 +325,9 @@ class Home extends Component {
           gltf.scene.position.z = zPos;
           gltf.scene.rotation.z = zRot;
           glScene.add(gltf.scene);
-          client.callback = () => onClick();
         });
-        pmremGenerator.dispose();
-        pmremCubeUVPacker.dispose();
+        // pmremGenerator.dispose();
+        // pmremCubeUVPacker.dispose();
       });
   };
 
@@ -437,6 +339,7 @@ class Home extends Component {
       WIDTH - 1,
       WIDTH - 1
     );
+
     // material: make a THREE.ShaderMaterial clone of THREE.MeshPhongMaterial, with customized vertex shader
     var material = new THREE.ShaderMaterial({
       uniforms: THREE.UniformsUtils.merge([
@@ -452,7 +355,7 @@ class Home extends Component {
     // Material attributes from THREE.MeshPhongMaterial
     material.color = new THREE.Color(materialColor);
     material.specular = new THREE.Color(0x111111);
-    material.shininess = 100;
+    material.shininess = 50;
     // Sets the uniforms with the material values
     material.uniforms["diffuse"].value = material.color;
     material.uniforms["specular"].value = material.specular;
@@ -476,9 +379,11 @@ class Home extends Component {
     );
     // meshRay.rotation.x = -Math.PI / 2;
     // meshRay.position.z = 0;
+
     meshRay.matrixAutoUpdate = false;
     meshRay.updateMatrix();
     glScene.add(meshRay);
+
     gpuCompute = new GPUComputationRenderer(WIDTH, WIDTH, glRenderer);
     var heightmap0 = gpuCompute.createTexture();
     this.fillTexture(heightmap0);
@@ -564,27 +469,23 @@ class Home extends Component {
       }
     }
   };
-
-  update = () => {
-    requestAnimationFrame(this.update);
-    glRenderer.render(glScene, camera);
-    cssRenderer.render(cssScene, camera);
-    // this.rayCast();
-    controls.update();
-
-    raycaster.setFromCamera(mouseCoords, camera);
+  rayCast = () => {
+    // Set uniforms: mouse interaction
     if (mouseMoved && logo && about && contact && projects && client) {
       var uniforms = heightmapVariable.material.uniforms;
+      raycaster.setFromCamera(mouseCoords, camera);
+
       var intersectWater = raycaster.intersectObject(meshRay);
       // raycast water
       if (intersectWater.length > 0) {
-        // console.log("intersected water");
+        console.log("intersected water");
         var point = intersectWater[0].point;
         uniforms["mousePos"].value.set(point.x, point.z);
       } else {
         uniforms["mousePos"].value.set(10000, 10000);
       }
       mouseMoved = false;
+
       var intersectButtons = raycaster.intersectObjects([
         logo,
         about,
@@ -601,11 +502,12 @@ class Home extends Component {
           intersected = intersectButtons[0].object;
           intersected.currentHex = intersected.material.emissive.getHex();
           intersected.material.emissive.setHex(0xff0000);
-          // console.log("intersected button");
+          console.log("intersected button");
         }
       } else {
         if (intersected)
           intersected.material.emissive.setHex(intersected.currentHex);
+
         intersected = null;
       }
     }
@@ -615,30 +517,23 @@ class Home extends Component {
     ).texture;
   };
 
-  onDocumentMouseDown = event => {
-    event.preventDefault();
-    this.setMouseCoords(event.clientX, event.clientY);
-    // console.log("generic click");
-    const intersectButtonsMd = raycaster.intersectObjects([
-      logo,
-      about,
-      contact,
-      projects,
-      client
-    ]);
-    if (intersectButtonsMd.length > 0) {
-      if (intersectButtonsMd[0].object.callback) {
-        intersectButtonsMd[0].object.callback();
-        // console.log(intersectButtonsMd[0].object);
-      }
-    }
+  // initWater();
+  // animate();
+  // pmremGenerator.dispose();
+  // pmremCubeUVPacker.dispose();
+  // });
+
+  update = () => {
+    requestAnimationFrame(this.update);
+    glRenderer.render(glScene, camera);
+    cssRenderer.render(cssScene, camera);
+    this.rayCast();
   };
 
   onWindowResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     glRenderer.setSize(window.innerWidth, window.innerHeight);
-    cssRenderer.setSize(window.innerWidth, window.innerHeight);
   };
   setMouseCoords = (x, y) => {
     mouseCoords.set(
@@ -662,20 +557,9 @@ class Home extends Component {
       this.setMouseCoords(event.touches[0].pageX, event.touches[0].pageY);
     }
   };
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.onWindowResize);
-  }
   render() {
-    if (this.state.show2D) {
-      this.embed2DPage(
-        window.innerWidth,
-        window.innerHeight,
-        new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(0, 0, 0)
-      );
-    }
-    return <div ref={this.mount} />;
+    return <div ref={container} />;
   }
 }
 
-export default Home;
+export default Test3;

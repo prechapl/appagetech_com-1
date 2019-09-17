@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import * as THREE from "three";
-import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import LandingTransition from './LandingTransition';
 import HomeTransition from './HomeTransition';
 
-var container, stats;
+var container;
 var renderer;
 var transition;
 var transitionParams = {
@@ -22,6 +19,7 @@ var transitionParams = {
 };
 var clock = new THREE.Clock();
 
+// Creates the sin wave array that the transition function uses to smoothly render the transition
 const createTransitionSinWaveArray = (inc, speed) => {
 	const sinWaveConvert = (convertValue) => {
 		return ( 1 + Math.sin( speed * convertValue / Math.PI ) ) / 2;
@@ -114,9 +112,6 @@ function Transition( sceneA, sceneB ) {
 	this.useTexture = function ( value ) {
 		this.quadmaterial.uniforms.useTexture.value = value ? 1 : 0;
 	};
-	// this.setTexture = function ( i ) {
-	// 	this.quadmaterial.uniforms.tMixTexture.value = this.textures[ i ];
-	// };
 	this.quadmaterial.uniforms.tMixTexture.value = this.textures[ transitionParams.texture ];
 	// Function to build the transition increments
 	const sinWaveArray = createTransitionSinWaveArray(transitionParams.transitionIncrement, transitionParams.transitionSpeed)
@@ -149,7 +144,6 @@ function Transition( sceneA, sceneB ) {
 class TransitionExample extends Component {
 
 	componentDidMount() {
-		console.log(createTransitionSinWaveArray(.02, transitionParams.transitionSpeed))
 		this.init();
 		this.animate();
 	}
@@ -163,35 +157,15 @@ class TransitionExample extends Component {
 	}
 
 	init = () => {
-		this.initGUI();
 		container = document.createElement("div");
 		document.body.appendChild(container);
 		renderer = new THREE.WebGLRenderer( { antialias: true } );
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		container.appendChild( renderer.domElement );
-		stats = new Stats();
-		container.appendChild( stats.dom );
 		var sceneA = new LandingTransition( renderer, 0xffffff, this.toggleTransition)
-		var sceneB = new HomeTransition( renderer, 0x000000)
+		var sceneB = new HomeTransition( renderer, 0x000000, container)
 		transition = new Transition( sceneA, sceneB );
-	}
-
-	initGUI = () => {
-		var gui = new GUI();
-		gui.add( transitionParams, "useTexture" ).onChange( function ( value ) {
-			transition.useTexture( value );
-		} );
-		gui.add( transitionParams, 'loopTexture' );
-		gui.add( transitionParams, 'texture', { Perlin: 0, Squares: 1, Cells: 2, Distort: 3, Gradient: 4, Radial: 5 } ).onChange( function ( value ) {
-			transition.setTexture( value );
-		} ).listen();
-		gui.add( transitionParams, "textureThreshold", 0, 1, 0.01 ).onChange( function ( value ) {
-			transition.setTextureThreshold( value );
-		} );
-		gui.add( transitionParams, "animateTransition" );
-		gui.add( transitionParams, "transition", 0, 1, 0.01 ).listen();
-		gui.add( transitionParams, "transitionSpeed", 0.5, 5, 0.01 );
 	}
 
 	animate = () => {

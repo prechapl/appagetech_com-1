@@ -4,11 +4,12 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { EquirectangularToCubeGenerator } from "three/examples/jsm/loaders/EquirectangularToCubeGenerator.js";
 import { PMREMGenerator } from "three/examples/jsm/pmrem/PMREMGenerator.js";
 import { PMREMCubeUVPacker } from "three/examples/jsm/pmrem/PMREMCubeUVPacker.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 import { SimplexNoise } from "three/examples/jsm/math/SimplexNoise.js";
-import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
+import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+import About from './2D/About';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 var mouseMoved = false;
 var mouseCoords = new THREE.Vector2();
@@ -18,16 +19,16 @@ var meshRay;
 var gpuCompute;
 var heightmapVariable;
 var waterUniforms;
-var smoothShader;
 var readWaterLevelShader;
 var readWaterLevelRenderTarget;
 var readWaterLevelImage;
 var waterNormal = new THREE.Vector3();
-
 var simplex = new SimplexNoise();
 
-export default function HomeTransition(renderer, clearColor) {
+export default function HomeTransition(renderer, clearColor, container) {
 
+    // State variagels
+    let reactAboutRendered = false;
     // Water variables
     // Texture width for simulation
     let WIDTH = 512;
@@ -44,6 +45,33 @@ export default function HomeTransition(renderer, clearColor) {
     );
     this.camera.position.set(0, 0, 225);
     this.camera.lookAt(0, 0, 0)
+
+    // CSS RENDER EXAMPLE
+    const scene2 = new THREE.Scene();
+    //var material = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, wireframeLinewidth: 1, side: THREE.DoubleSide } );
+    //
+    var element = document.createElement( 'div' );
+    element.style.width = '50px';
+    element.style.height = '50px';
+    element.style.opacity = 0.5;
+    element.style.background = new THREE.Color( Math.random() * 0xffffff ).getStyle();
+    element.id = "abouttest"
+    var object = new CSS3DObject( element );
+    object.position.x = 0;
+    object.position.y = 0;
+    object.position.z = 0;
+    scene2.add( object );
+
+    //
+    const renderer2 = new CSS3DRenderer();
+    renderer2.setSize( window.innerWidth, window.innerHeight );
+    renderer2.domElement.style.position = 'absolute';
+    renderer2.domElement.style.top = 0;
+    container.appendChild( renderer2.domElement );
+    const renderCSS3D = () => {
+      renderer2.render( scene2, this.camera );
+    }
+
     // Window functions
     const onDocumentMouseMove = event => {
         setMouseCoords(event.clientX, event.clientY);
@@ -347,11 +375,6 @@ export default function HomeTransition(renderer, clearColor) {
         if (error !== null) {
             console.error(error);
         }
-        // Create compute shader to smooth the water surface and velocity
-        smoothShader = gpuCompute.createShaderMaterial(
-        document.getElementById("smoothFragmentShader").textContent,
-            { smoothTexture: { value: null } }
-        );
         // Create compute shader to read water level
         readWaterLevelShader = gpuCompute.createShaderMaterial(
         document.getElementById("readWaterLevelFragmentShader").textContent,
@@ -409,7 +432,7 @@ export default function HomeTransition(renderer, clearColor) {
     // scene.background = cubeGenerator.renderTarget;
     scene.background = new THREE.Color(0xffffff);
     var renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
-	this.fbo = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, renderTargetParameters );
+	  this.fbo = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, renderTargetParameters );
     this.render = function ( delta, rtt ) {
         var uniforms = heightmapVariable.material.uniforms;
         if (mouseMoved) {
@@ -432,13 +455,19 @@ export default function HomeTransition(renderer, clearColor) {
             ).texture;
         renderer.setClearColor( this.clearColor );
         if ( rtt ) {
-			renderer.setRenderTarget( this.fbo );
-            renderer.clear()
-			renderer.render( scene, this.camera );
-		} else {
-			renderer.setRenderTarget( null );
-			renderer.render( scene, this.camera );
-		}
+          renderer.setRenderTarget( this.fbo );
+          renderer.clear()
+          renderer.render( scene, this.camera );
+        } else {
+          renderer.setRenderTarget( null );
+          renderer.render( scene, this.camera );
+          renderer2.render( scene2, this.camera );
+          if (reactAboutRendered === false) {
+            // React rendering after div is appended
+            const aboutElement = document.getElementById("abouttest")
+            ReactDOM.render(<About />, aboutElement)
+          }
+        }
     }
 
     this.onDocumentTouchMove = event => {

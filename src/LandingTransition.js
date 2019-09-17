@@ -6,10 +6,13 @@ import { PMREMGenerator } from "three/examples/jsm/pmrem/PMREMGenerator.js";
 import { PMREMCubeUVPacker } from "three/examples/jsm/pmrem/PMREMCubeUVPacker.js";
 
 export default function LandingTransition(renderer, clearColor, toggleTransitionFunc) {
+    
     // Initial variables
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     this.clearColor = clearColor;
+    let cubeGenerator, type, icon
+
     // Scene & Camera
     this.camera = new THREE.PerspectiveCamera(
       40,
@@ -26,10 +29,11 @@ export default function LandingTransition(renderer, clearColor, toggleTransition
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         raycaster.setFromCamera(mouse, this.camera);
-        let intersects = raycaster.intersectObjects(scene.children, true);
+        let intersects = raycaster.intersectObjects([icon, type], true);
         if (intersects.length > 0) {
             if (intersects[0].object.callback) {
                 intersects[0].object.callback();
+                document.removeEventListener('mousedown', onDocumentMouseDown, false);
             }
         }
     }
@@ -42,7 +46,6 @@ export default function LandingTransition(renderer, clearColor, toggleTransition
     }
 
     // Objects
-    let cubeGenerator, type, icon
     // load HDR, then Models
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
@@ -112,6 +115,32 @@ export default function LandingTransition(renderer, clearColor, toggleTransition
         // scene.background = cubeGenerator.renderTarget;
         scene.background = new THREE.Color(0x000000);
     });
+    const starForge = () => {
+        var starQty = 800000;
+        const starGeometry = new THREE.SphereGeometry(200, 10, 10);
+    
+        const materialOptions = {
+          size: 0.06, //I know this is the default, it's for you.  Play with it if you want.
+          transparency: true,
+          opacity: 0.7
+        };
+    
+        const starStuff = new THREE.PointCloudMaterial(materialOptions);
+    
+        for (var i = 0; i < starQty; i++) {
+          var starVertex = new THREE.Vector3();
+          starVertex.x = Math.random() * 200 - 100;
+          starVertex.y = Math.random() * 200 - 100;
+          starVertex.z = Math.random() * 100 - 100;
+    
+          starGeometry.vertices.push(starVertex);
+        }
+    
+        const stars = new THREE.PointCloud(starGeometry, starStuff);
+        scene.add(stars);
+    };
+    starForge();
+
     var renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
 	this.fbo = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, renderTargetParameters );
     this.render = function ( delta, rtt ) {
