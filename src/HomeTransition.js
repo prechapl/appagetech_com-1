@@ -55,10 +55,6 @@ export default function HomeTransition(renderer, clearColor, container) {
     const reactComponentsObj = {};
     reactComponents.forEach(item => {
       let element = document.createElement( 'div' );
-      element.style.width = '50px';
-      element.style.height = '50px';
-      element.style.top = 0;
-      element.style.opacity = 1;
       element.style.background = new THREE.Color( Math.random() * 0xffffff ).getStyle();
       element.id = item
       let object = new CSS3DObject( element );
