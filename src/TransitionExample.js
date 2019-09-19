@@ -147,9 +147,9 @@ function Transition(sceneA, sceneB) {
     }
     this.quadmaterial.uniforms.mixRatio.value = transitionParams.transition;
     // Prevent render both scenes when it's not necessary
-    if (transitionParams.transition == 0) {
+    if (transitionParams.transition === 0) {
       this.sceneB.render(delta, false);
-    } else if (transitionParams.transition == 1) {
+    } else if (transitionParams.transition === 1) {
       this.sceneA.render(delta, false);
     } else {
       // When 0<transition<1 render transition between two scenes
@@ -179,7 +179,11 @@ class TransitionExample extends Component {
   init = () => {
     container = document.createElement("div");
     document.body.appendChild(container);
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      gammaOutput: true,
+      gammaFactor: 2.2
+    });
     console.log("window.devicePixelRatio", window.devicePixelRatio);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);

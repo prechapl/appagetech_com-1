@@ -160,6 +160,7 @@ export default function LandingTransition(
     }
     renderer.setClearColor(this.clearColor);
     if (rtt) {
+      console.log("rtt", rtt);
       renderer.setRenderTarget(this.fbo);
       renderer.clear();
       renderer.render(scene, this.camera);
