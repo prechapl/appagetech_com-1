@@ -12,35 +12,6 @@ import { PMREMGenerator } from "three/examples/jsm/pmrem/PMREMGenerator.js";
 import { PMREMCubeUVPacker } from "three/examples/jsm/pmrem/PMREMCubeUVPacker.js";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 import { SimplexNoise } from "three/examples/jsm/math/SimplexNoise.js";
-<<<<<<< HEAD
-
-let cubeGenerator, hdrEnvMap;
-let logo, about, contact, projects, client;
-let intersected;
-
-// Texture width for simulation
-let WIDTH = 512;
-// Water size in system units
-let BOUNDS = 256;
-var BOUNDS_HALF = BOUNDS * 0.5;
-var controls;
-var camera, scene, renderer;
-var mouseMoved = false;
-var mouseCoords = new THREE.Vector2();
-var raycaster = new THREE.Raycaster();
-var waterMesh;
-var meshRay;
-var gpuCompute;
-var heightmapVariable;
-var waterUniforms;
-var smoothShader;
-var readWaterLevelShader;
-var readWaterLevelRenderTarget;
-var readWaterLevelImage;
-var waterNormal = new THREE.Vector3();
-
-var simplex = new SimplexNoise();
-=======
 import About from "./2D/About";
 
 let camera, glScene, cssScene, glRenderer, cssRenderer, controls, container;
@@ -62,7 +33,6 @@ let raycaster = new THREE.Raycaster();
 let WIDTH = 512;
 let BOUNDS = 256;
 let zPosition2D = -2000;
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
 
 class Home extends Component {
   constructor(props) {
@@ -75,12 +45,9 @@ class Home extends Component {
     console.log("mounted");
     this.initialize();
     this.loadAssets();
-<<<<<<< HEAD
-=======
     this.initWater();
     this.update();
     // this.rayCast();
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
     this.lighting();
   }
 
@@ -91,18 +58,6 @@ class Home extends Component {
     spotLight1.penumbra = 1;
     spotLight1.angle = 1;
     // const spotLightHelper1 = new THREE.SpotLightHelper(spotLight1);
-<<<<<<< HEAD
-    // scene.add(spotLightHelper1);
-    scene.add(spotLight1);
-  };
-
-  sceneSetup = () => {
-    this.container = document.createElement("div");
-    document.body.appendChild(this.container);
-    scene = new THREE.Scene();
-    // scene.background = new THREE.Color(0x000000);
-    scene.background = new THREE.Color(0xffffff);
-=======
     // glScene.add(spotLightHelper1);
     glScene.add(spotLight1);
   };
@@ -176,7 +131,6 @@ class Home extends Component {
   };
 
   initialize = () => {
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
     camera = new THREE.PerspectiveCamera(
       30,
       window.innerWidth / window.innerHeight,
@@ -185,16 +139,6 @@ class Home extends Component {
     );
     camera.position.set(0, 0, 224);
     camera.lookAt(0, 0, 0);
-<<<<<<< HEAD
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.gammaOutput = true;
-    this.container.appendChild(renderer.domElement);
-    // controls = new OrbitControls(camera, renderer.domElement);
-    // controls.target.set(0, 0, 215);
-    // controls.update();
-=======
     glRenderer = this.createGlRenderer();
     cssRenderer = this.createCssRenderer();
     container = document.createElement("div");
@@ -208,7 +152,6 @@ class Home extends Component {
 
     // console.log("window.innerWidth", window.innerWidth);
 
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
     window.addEventListener("resize", this.onWindowResize, false);
     document.addEventListener("mousemove", this.onDocumentMouseMove, false);
     document.addEventListener("touchstart", this.onDocumentTouchStart, false);
@@ -228,25 +171,12 @@ class Home extends Component {
         cubeGenerator = new EquirectangularToCubeGenerator(texture, {
           resolution: 512
         });
-<<<<<<< HEAD
-        cubeGenerator.update(renderer);
-        const pmremGenerator = new PMREMGenerator(
-          cubeGenerator.renderTarget.texture
-        );
-        pmremGenerator.update(renderer);
-        const pmremCubeUVPacker = new PMREMCubeUVPacker(
-          pmremGenerator.cubeLods
-        );
-        pmremCubeUVPacker.update(renderer);
-        hdrEnvMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-=======
         cubeGenerator.update(glRenderer);
         pmremGenerator = new PMREMGenerator(cubeGenerator.renderTarget.texture);
         pmremGenerator.update(glRenderer);
         pmremCubeUVPacker = new PMREMCubeUVPacker(pmremGenerator.cubeLods);
         pmremCubeUVPacker.update(glRenderer);
         const hdrEnvMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
 
         // Models
         const typeParams = {
@@ -258,11 +188,7 @@ class Home extends Component {
         };
         const iconParams = {
           envMap: hdrEnvMap,
-<<<<<<< HEAD
-          envMapIntensity: 4,
-=======
           envMapIntensity: 5,
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
           color: 0x694112,
           metalness: 1,
           roughness: 0.05
@@ -292,11 +218,8 @@ class Home extends Component {
           gltf.scene.traverse(function(child) {
             if (child.isMesh) {
               child.material = new THREE.MeshStandardMaterial(iconParams);
-<<<<<<< HEAD
-=======
               child.scale.copy(scale);
               child.callback = () => onClick();
->>>>>>> 9a7581705a3ec6edbcd3ce2e6306ca58f916d9e5
               logo = child;
             }
           });
