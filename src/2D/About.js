@@ -61,7 +61,6 @@ class About extends Component {
 
   render() {
     const windowAspect = window.innerWidth / window.innerHeight;
-    console.log("window", window);
     const marginTop = windowAspect > 1 ? 200 : -200;
     const textSize = windowAspect > 1 ? 20 : 24;
     const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
