@@ -156,7 +156,7 @@ class About extends Component {
                       pose={isOpen ? "open" : "closed"}
                     >
                       <Item className="item">
-                        <h2>Engagment Models</h2>
+                        <h2>Engagement Models</h2>
                       </Item>
                       <Item className="item">Fixed Price Contract</Item>
                       <Item className="item">Hourly Development Work</Item>
