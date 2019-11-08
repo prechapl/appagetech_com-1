@@ -61,7 +61,7 @@ class About extends Component {
 
   render() {
     const windowAspect = window.innerWidth / window.innerHeight;
-    const marginTop = windowAspect > 1 ? 200 : -200;
+    const marginTop = windowAspect > 1 ? 0 : -200;
     const textSize = windowAspect > 1 ? 20 : 24;
     const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
     const paddingX = windowAspect > 1 ? 50 : 0;
@@ -75,46 +75,55 @@ class About extends Component {
         <PoseGroup>
           {isVisible && (
             // If animating more than one child, each needs a `key`
-
-            <Modal
-              key="modal"
-              style={{
-                width: variableWidth,
-                height: "90vh",
-                marginTop: marginTop,
-                paddingLeft: paddingX,
-                paddingRight: paddingX,
-                paddingTop: 0
-              }}
-            >
-              <div className="row justify-content-center">
-                <div
-                  className="lead"
-                  style={{
-                    fontSize: textSize,
-                    lineHeight: lineSpace,
-                    textAlign: "justify",
-                    marginBottom: 30
-                  }}
-                >
-                  <span style={{ lineHeight: 1, fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
-                    <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>
-                      App Age Technologies
-                    </SplitText>
-                  </span>
-                  produces software that informs, entertains, solves problems and enriches lives. Co-founders William
-                  Griffin and Preston Chaplin bring unique and impressive professional experiences to this vanguard
-                  software development company. Decades of experience in digital imaging and high-profile advertising
-                  production provides assurance that your brand will be presented in the best possible light via App Age
-                  software. Extensive experience manipulating highly technical data for the financial industry and
-                  providing financial consulting for businesses big and small ensures that App Age can tackle complex
-                  technical challenges and advise clients of any size on the best paths to success. From microsites to
-                  distributed mobile apps, we’re software developers devoted to delivering success in surprising ways.
+            <div className="container" key="conatiner" style={{ padding: 0, margin: 0 }}>
+              <Modal
+                key="modal"
+                style={{
+                  width: "100%",
+                  height: "90vh",
+                  marginTop: marginTop,
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  paddingTop: 0,
+                  overscrollBehaviorY: "contain"
+                  // backgroundColor: "red"
+                }}
+              >
+                <div style={{ backgroundColor: "black" }}>
+                  <img src="images/Figures-By-Donna-05-Centered.svg" width="100%" alt="" />
                 </div>
-              </div>
 
-              <div className="container">
                 <div className="row justify-content-center">
+                  <div
+                    className="lead"
+                    style={{
+                      fontSize: textSize,
+                      lineHeight: lineSpace,
+                      // textAlign: "justify",
+                      marginBottom: 30,
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                      width: variableWidth
+                    }}
+                  >
+                    <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
+                      <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>
+                        App Age Technologies
+                      </SplitText>
+                    </span>
+                    produces software that informs, entertains, solves problems and enriches lives. Co-founders William
+                    Griffin and Preston Chaplin bring unique and impressive professional experiences to this vanguard
+                    software development company. Decades of experience in digital imaging and high-profile advertising
+                    production provides assurance that your brand will be presented in the best possible light via App
+                    Age software. Extensive experience manipulating highly technical data for the financial industry and
+                    providing financial consulting for businesses big and small ensures that App Age can tackle complex
+                    technical challenges and advise clients of any size on the best paths to success. From microsites to
+                    distributed mobile apps, we’re software developers devoted to delivering success in surprising ways.
+                  </div>
+                </div>
+
+                {/* <div className="container" style={{ backgroundColor: "black", color: "white" }}> */}
+                <div className="row justify-content-center" style={{ backgroundColor: "black", color: "white" }}>
                   <div className="col-12 col-md-6">
                     <Sidebar
                       style={{
@@ -144,7 +153,7 @@ class About extends Component {
                     </Sidebar>
                   </div>
 
-                  <div className="col-12 col-md-6">
+                  <div className="col-sm-12 col-md-6">
                     <Sidebar
                       style={{
                         padding: "10px",
@@ -164,8 +173,9 @@ class About extends Component {
                     </Sidebar>
                   </div>
                 </div>
-              </div>
-            </Modal>
+                {/* </div> */}
+              </Modal>
+            </div>
           )}
         </PoseGroup>
       </Fragment>

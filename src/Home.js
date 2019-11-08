@@ -34,7 +34,7 @@ let offScreenZPosition2D = 10000;
 let placementDirection = "horizontal";
 let touchEvent = false;
 var yDown = null;
-const windowAspect = window.innerWidth / window.innerHeight;
+let windowAspect = window.innerWidth / window.innerHeight;
 
 const reactComponents = ["about", "contact", "projects", "client"];
 const reactComponentsObj = {};
@@ -196,7 +196,6 @@ class Home extends Component {
   }
 
   setLoadLocations = () => {
-    const windowAspect = window.innerWidth / window.innerHeight;
     if (windowAspect < 1) {
       placementDirection = "vertical";
     }
@@ -239,7 +238,6 @@ class Home extends Component {
     cssRenderer.domElement.style.position = "fixed";
     cssRenderer.domElement.style.zIndex = -1;
     cssRenderer.domElement.style.top = offsetTop;
-    // console.log("cssRenderer Size: ", cssRenderer.getSize());
     return cssRenderer;
   };
 
@@ -380,6 +378,7 @@ class Home extends Component {
         // Toggle Icons OFF
         glScene.traverse(function(child) {
           if (
+            (child.isMesh && child.name === "logoIcon") ||
             (child.isMesh && child.name === "clientIcon") ||
             (child.isMesh && child.name === "projectsIcon") ||
             (child.isMesh && child.name === "contactIcon") ||
@@ -1293,7 +1292,7 @@ class Home extends Component {
     if (this.state.location === "about") {
       var yUp = event.touches[0].clientY;
       var yDiff = yDown - yUp;
-      cssScene.position.y += yDiff * 0.1;
+      cssScene.position.y += yDiff * 0.2;
       cssScene.position.clampScalar(-5, 200);
     }
   };
