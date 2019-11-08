@@ -196,7 +196,6 @@ class Home extends Component {
   }
 
   setLoadLocations = () => {
-    // const windowAspect = window.innerWidth / window.innerHeight;
     if (windowAspect < 1) {
       placementDirection = "vertical";
     }
@@ -239,7 +238,6 @@ class Home extends Component {
     cssRenderer.domElement.style.position = "fixed";
     cssRenderer.domElement.style.zIndex = -1;
     cssRenderer.domElement.style.top = offsetTop;
-    console.log("cssRenderer Size: ", cssRenderer.getSize());
     return cssRenderer;
   };
 
