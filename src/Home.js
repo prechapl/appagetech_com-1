@@ -295,7 +295,7 @@ class Home extends Component {
 
     window.addEventListener("resize", this.onWindowResize, false);
     document.addEventListener("mousemove", this.onDocumentMouseMove, false);
-    document.addEventListener("touchstart", this.onTouchStartScrollable, false);
+    document.addEventListener("touchstart", this.onTouchStartScrollable, { passive: false });
     document.addEventListener("mousedown", this.onDocumentMouseDown, false);
     window.addEventListener("wheel", this.onMouseWheel, false);
 
@@ -1259,9 +1259,9 @@ class Home extends Component {
   };
 
   onTouchStartScrollable = event => {
-    document.addEventListener("touchmove", this.onTouchMoveScrollable, false);
+    document.addEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
 
-    document.addEventListener("touchend", this.onTouchEndScrollable, false);
+    document.addEventListener("touchend", this.onTouchEndScrollable, { passive: false });
 
     if (this.state.location === "about") {
       // xDown = event.touches[0].clientX;
@@ -1292,7 +1292,7 @@ class Home extends Component {
     if (this.state.location === "about") {
       var yUp = event.touches[0].clientY;
       var yDiff = yDown - yUp;
-      cssScene.position.y += yDiff * 0.2;
+      cssScene.position.y += yDiff * 0.1;
       cssScene.position.clampScalar(-5, 200);
     }
   };
@@ -1302,9 +1302,9 @@ class Home extends Component {
     document.removeEventListener("touchend", this.onTouchEndScrollable);
   };
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.onWindowResize);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener("resize", this.onWindowResize);
+  // }
   render() {
     return <div ref={this.mount} />;
   }
