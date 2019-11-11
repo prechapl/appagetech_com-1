@@ -80,10 +80,10 @@ class About extends Component {
               style={{
                 marginTop: marginTop,
                 marginLeft: marginX,
-                marginRight: marginX,
-                overscrollBehaviorY: "contain",
-                overflowY: "scroll",
-                webkitOverflowScrolling: "touch"
+                marginRight: marginX
+                // overscrollBehaviorY: "smooth",
+                // overflowY: "scroll",
+                // webkitOverflowScrolling: "touch"
               }}
             >
               <div style={{ paddingTop: 100, marginBottom: 30 }}>
