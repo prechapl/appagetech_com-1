@@ -61,12 +61,13 @@ class About extends Component {
 
   render() {
     const windowAspect = window.innerWidth / window.innerHeight;
-    const marginTop = windowAspect > 1 ? 0 : -200;
+    const marginTop = windowAspect > 1 ? 80 : 500;
     const textSize = windowAspect > 1 ? 20 : 24;
     const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
-    const paddingX = windowAspect > 1 ? 50 : 0;
+    const paddingX = windowAspect > 1 ? 130 : 80;
     const strongTextSize = windowAspect > 1 ? 36 : 28;
-    const variableWidth = windowAspect > 1 ? "64vw" : "100vw";
+    // const variableWidth = windowAspect > 1 ? "64vw" : "100vw";
+    const marginX = windowAspect > 1 ? 0 : -110;
 
     const { isVisible, isOpen } = this.state;
 
@@ -75,22 +76,17 @@ class About extends Component {
         <PoseGroup>
           {isVisible && (
             // If animating more than one child, each needs a `key`
-            // <div className="container" key="conatiner" style={{ padding: 0, margin: 0 }}>
             <Modal
               key="modal"
               style={{
-                width: "100%",
-                height: "90vh",
                 marginTop: marginTop,
-                paddingLeft: 0,
-                paddingRight: 0,
-                paddingTop: 0,
+                marginLeft: marginX,
+                marginRight: marginX,
                 overscrollBehaviorY: "contain"
-                // backgroundColor: "red"
               }}
             >
-              <div style={{ backgroundColor: "black" }}>
-                <img src="images/Figures-By-Donna-05-Centered.svg" width="100%" alt="" />
+              <div style={{ paddingTop: 100, marginBottom: 30 }}>
+                <img src="images/Figures-By-Donna-05-Centered.png" width="100%" height="auto" alt="" />
               </div>
 
               <div className="row justify-content-center">
@@ -99,11 +95,11 @@ class About extends Component {
                   style={{
                     fontSize: textSize,
                     lineHeight: lineSpace,
-                    // textAlign: "justify",
+                    textAlign: "justify",
                     marginBottom: 30,
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    width: variableWidth
+                    paddingLeft: paddingX,
+                    paddingRight: paddingX
+                    // width: variableWidth
                   }}
                 >
                   <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
@@ -122,7 +118,6 @@ class About extends Component {
                 </div>
               </div>
 
-              {/* <div className="container" style={{ backgroundColor: "black", color: "white" }}> */}
               <div
                 className="row"
                 style={{ display: "flex", justifyContent: "space-evenly", backgroundColor: "black", color: "white" }}
@@ -131,7 +126,6 @@ class About extends Component {
                   <Sidebar
                     style={{
                       padding: "20px",
-                      // display: "flex",
                       flexDirection: "column",
                       listStyle: "none"
                     }}
@@ -160,7 +154,6 @@ class About extends Component {
                   <Sidebar
                     style={{
                       padding: "20px",
-                      // display: "flex",
                       flexDirection: "column",
                       listStyle: "none"
                     }}
@@ -176,9 +169,7 @@ class About extends Component {
                   </Sidebar>
                 </div>
               </div>
-              {/* </div> */}
             </Modal>
-            // </div>
           )}
         </PoseGroup>
       </Fragment>

@@ -35,9 +35,11 @@ let placementDirection = "horizontal";
 let touchEvent = false;
 var yDown = null;
 let windowAspect = window.innerWidth / window.innerHeight;
+const offsetTopCssPosition = windowAspect > 1 ? "200px" : "115px";
 
 const reactComponents = ["about", "contact", "projects", "client"];
 const reactComponentsObj = {};
+
 const navbarPlacement = {
   horizontal: {
     about: {
@@ -231,21 +233,20 @@ class Home extends Component {
     return glRenderer;
   };
 
-  createCssRenderer = offsetTop => {
+  createCssRenderer = () => {
     var cssRenderer = new CSS3DRenderer();
     cssRenderer.setSize(window.innerWidth, window.innerHeight);
     // cssRenderer.antialias = true;
     cssRenderer.domElement.style.position = "fixed";
     cssRenderer.domElement.style.zIndex = -1;
-    cssRenderer.domElement.style.top = offsetTop;
+    cssRenderer.domElement.style.top = offsetTopCssPosition;
+    console.log("created cssRenderer");
     return cssRenderer;
   };
 
   createPlane = (w, h, position, rotation) => {
     var material = new THREE.MeshBasicMaterial();
-
     var geometry = new THREE.PlaneGeometry(w, h);
-
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = position.x;
     mesh.position.y = position.y;
@@ -266,11 +267,11 @@ class Home extends Component {
   };
 
   initialize = () => {
+    console.log("init fired");
     camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.25, 4000);
     camera.position.set(0, 0, 224);
     camera.lookAt(0, 0, 0);
     glRenderer = this.createGlRenderer();
-    const offsetTopCssPosition = windowAspect > 1 ? "185px" : "115px";
     cssRenderer = this.createCssRenderer(offsetTopCssPosition);
     container = document.createElement("div");
     document.body.appendChild(container);
@@ -1054,6 +1055,8 @@ class Home extends Component {
     if (this.state.landingPage) {
       landingScene.render();
     } else {
+      glRenderer.setSize(window.innerWidth, window.innerHeight);
+      cssRenderer.setSize(window.innerWidth, window.innerHeight);
       glRenderer.render(glScene, camera);
       cssRenderer.render(cssScene, camera);
 
@@ -1260,7 +1263,6 @@ class Home extends Component {
 
   onTouchStartScrollable = event => {
     document.addEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
-
     document.addEventListener("touchend", this.onTouchEndScrollable, { passive: false });
 
     if (this.state.location === "about") {
