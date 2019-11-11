@@ -21,7 +21,7 @@ const Modal = posed.div({
 
 const Sidebar = posed.ul({
   open: {
-    x: "0%",
+    x: "0",
     delayChildren: 20,
     staggerChildren: 200
   },
@@ -61,12 +61,12 @@ class About extends Component {
 
   render() {
     const windowAspect = window.innerWidth / window.innerHeight;
-    const marginTop = windowAspect > 1 ? 0 : -200;
+    const marginTop = windowAspect > 1 ? 80 : 500;
     const textSize = windowAspect > 1 ? 20 : 24;
     const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
-    const paddingX = windowAspect > 1 ? 50 : 0;
+    const paddingX = windowAspect > 1 ? 130 : 80;
     const strongTextSize = windowAspect > 1 ? 36 : 28;
-    const variableWidth = windowAspect > 1 ? "64vw" : "100vw";
+    const marginX = windowAspect > 1 ? 0 : -110;
 
     const { isVisible, isOpen } = this.state;
 
@@ -75,107 +75,101 @@ class About extends Component {
         <PoseGroup>
           {isVisible && (
             // If animating more than one child, each needs a `key`
-            <div className="container" key="conatiner" style={{ padding: 0, margin: 0 }}>
-              <Modal
-                key="modal"
-                style={{
-                  width: "100%",
-                  height: "90vh",
-                  marginTop: marginTop,
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                  paddingTop: 0,
-                  overscrollBehaviorY: "contain"
-                  // backgroundColor: "red"
-                }}
+            <Modal
+              key="modal"
+              style={{
+                marginTop: marginTop,
+                marginLeft: marginX,
+                marginRight: marginX
+                // overscrollBehaviorY: "smooth",
+                // overflowY: "scroll",
+                // webkitOverflowScrolling: "touch"
+              }}
+            >
+              <div style={{ paddingTop: 100, marginBottom: 30 }}>
+                <img src="images/Figures-By-Donna-05-Centered.png" width="100%" height="auto" alt="" />
+              </div>
+
+              <div className="row justify-content-center">
+                <div
+                  className="lead"
+                  style={{
+                    fontSize: textSize,
+                    lineHeight: lineSpace,
+                    textAlign: "justify",
+                    marginBottom: 30,
+                    paddingLeft: paddingX,
+                    paddingRight: paddingX
+                  }}
+                >
+                  <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
+                    <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>
+                      App Age Technologies
+                    </SplitText>
+                  </span>
+                  produces software that informs, entertains, solves problems and enriches lives. Co-founders William
+                  Griffin and Preston Chaplin bring unique and impressive professional experiences to this vanguard
+                  software development company. Decades of experience in digital imaging and high-profile advertising
+                  production provides assurance that your brand will be presented in the best possible light via App Age
+                  software. Extensive experience manipulating highly technical data for the financial industry and
+                  providing financial consulting for businesses big and small ensures that App Age can tackle complex
+                  technical challenges and advise clients of any size on the best paths to success. From microsites to
+                  distributed mobile apps, we’re software developers devoted to delivering success in surprising ways.
+                </div>
+              </div>
+
+              <div
+                className="row"
+                style={{ display: "flex", justifyContent: "space-evenly", backgroundColor: "black", color: "white" }}
               >
-                <div style={{ backgroundColor: "black" }}>
-                  <img src="images/Figures-By-Donna-05-Centered.svg" width="100%" alt="" />
-                </div>
-
-                <div className="row justify-content-center">
-                  <div
-                    className="lead"
+                <div>
+                  <Sidebar
                     style={{
-                      fontSize: textSize,
-                      lineHeight: lineSpace,
-                      // textAlign: "justify",
-                      marginBottom: 30,
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                      width: variableWidth
+                      padding: "20px",
+                      flexDirection: "column",
+                      listStyle: "none"
                     }}
+                    pose={isOpen ? "open" : "closed"}
                   >
-                    <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
-                      <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>
-                        App Age Technologies
-                      </SplitText>
-                    </span>
-                    produces software that informs, entertains, solves problems and enriches lives. Co-founders William
-                    Griffin and Preston Chaplin bring unique and impressive professional experiences to this vanguard
-                    software development company. Decades of experience in digital imaging and high-profile advertising
-                    production provides assurance that your brand will be presented in the best possible light via App
-                    Age software. Extensive experience manipulating highly technical data for the financial industry and
-                    providing financial consulting for businesses big and small ensures that App Age can tackle complex
-                    technical challenges and advise clients of any size on the best paths to success. From microsites to
-                    distributed mobile apps, we’re software developers devoted to delivering success in surprising ways.
-                  </div>
+                    <Item className="item">
+                      <h2>Services</h2>
+                    </Item>
+                    <Item className="item">Web Development</Item>
+                    <Item className="item">iOS Development</Item>
+                    <Item className="item">Android Development</Item>
+                    <Item className="item">Tech Product Design</Item>
+                    <Item className="item">Frontend Web Creation</Item>
+                    <Item className="item">Backend Engineering</Item>
+                    <Item className="item">Cloud services</Item>
+                    <Item className="item">Process Automation</Item>
+                    <Item className="item">Web Animations</Item>
+                    <Item className="item">Interactive 3D Elements</Item>
+                    <Item className="item">3D Modeling</Item>
+                    <Item className="item">Photo Retouching</Item>
+                    <Item className="item">Photography</Item>
+                  </Sidebar>
                 </div>
 
-                {/* <div className="container" style={{ backgroundColor: "black", color: "white" }}> */}
-                <div className="row justify-content-center" style={{ backgroundColor: "black", color: "white" }}>
-                  <div className="col-12 col-md-6">
-                    <Sidebar
-                      style={{
-                        padding: "10px",
-                        display: "flex",
-                        flexDirection: "column",
-                        listStyle: "none"
-                      }}
-                      pose={isOpen ? "open" : "closed"}
-                    >
-                      <Item className="item">
-                        <h2>Services</h2>
-                      </Item>
-                      <Item className="item">Web Development</Item>
-                      <Item className="item">iOS Development</Item>
-                      <Item className="item">Android Development</Item>
-                      <Item className="item">Tech Product Design</Item>
-                      <Item className="item">Frontend Web Creation</Item>
-                      <Item className="item">Backend Engineering</Item>
-                      <Item className="item">Cloud services</Item>
-                      <Item className="item">Process Automation</Item>
-                      <Item className="item">Web Animations</Item>
-                      <Item className="item">Interactive 3D Elements</Item>
-                      <Item className="item">Computer Generated 3D Imaging</Item>
-                      <Item className="item">Photo Retouching</Item>
-                      <Item className="item">Photography</Item>
-                    </Sidebar>
-                  </div>
-
-                  <div className="col-sm-12 col-md-6">
-                    <Sidebar
-                      style={{
-                        padding: "10px",
-                        display: "flex",
-                        flexDirection: "column",
-                        listStyle: "none"
-                      }}
-                      pose={isOpen ? "open" : "closed"}
-                    >
-                      <Item className="item">
-                        <h2>Engagement Models</h2>
-                      </Item>
-                      <Item className="item">Fixed Price Contract</Item>
-                      <Item className="item">Hourly Development Work</Item>
-                      <Item className="item">Equity Based Partnerships</Item>
-                      <Item className="item">Project Specific Consulting</Item>
-                    </Sidebar>
-                  </div>
+                <div>
+                  <Sidebar
+                    style={{
+                      padding: "20px",
+                      flexDirection: "column",
+                      listStyle: "none"
+                    }}
+                    pose={isOpen ? "open" : "closed"}
+                  >
+                    <Item className="item">
+                      <h2>Engagement</h2>
+                    </Item>
+                    <Item className="item">Fixed Price Contract</Item>
+                    <Item className="item">Hourly Development Work</Item>
+                    <Item className="item">Equity Based Partnerships</Item>
+                    <Item className="item">Project Specific Consulting</Item>
+                  </Sidebar>
                 </div>
-                {/* </div> */}
-              </Modal>
-            </div>
+              </div>
+            </Modal>
           )}
         </PoseGroup>
       </Fragment>

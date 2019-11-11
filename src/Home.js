@@ -35,9 +35,11 @@ let placementDirection = "horizontal";
 let touchEvent = false;
 var yDown = null;
 let windowAspect = window.innerWidth / window.innerHeight;
+const offsetTopCssPosition = windowAspect > 1 ? "200px" : "115px";
 
 const reactComponents = ["about", "contact", "projects", "client"];
 const reactComponentsObj = {};
+
 const navbarPlacement = {
   horizontal: {
     about: {
@@ -231,21 +233,18 @@ class Home extends Component {
     return glRenderer;
   };
 
-  createCssRenderer = offsetTop => {
+  createCssRenderer = () => {
     var cssRenderer = new CSS3DRenderer();
     cssRenderer.setSize(window.innerWidth, window.innerHeight);
-    // cssRenderer.antialias = true;
     cssRenderer.domElement.style.position = "fixed";
     cssRenderer.domElement.style.zIndex = -1;
-    cssRenderer.domElement.style.top = offsetTop;
+    cssRenderer.domElement.style.top = offsetTopCssPosition;
     return cssRenderer;
   };
 
   createPlane = (w, h, position, rotation) => {
     var material = new THREE.MeshBasicMaterial();
-
     var geometry = new THREE.PlaneGeometry(w, h);
-
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = position.x;
     mesh.position.y = position.y;
@@ -270,7 +269,6 @@ class Home extends Component {
     camera.position.set(0, 0, 224);
     camera.lookAt(0, 0, 0);
     glRenderer = this.createGlRenderer();
-    const offsetTopCssPosition = windowAspect > 1 ? "185px" : "115px";
     cssRenderer = this.createCssRenderer(offsetTopCssPosition);
     container = document.createElement("div");
     document.body.appendChild(container);
@@ -1054,6 +1052,8 @@ class Home extends Component {
     if (this.state.landingPage) {
       landingScene.render();
     } else {
+      glRenderer.setSize(window.innerWidth, window.innerHeight);
+      cssRenderer.setSize(window.innerWidth, window.innerHeight);
       glRenderer.render(glScene, camera);
       cssRenderer.render(cssScene, camera);
 
@@ -1259,9 +1259,8 @@ class Home extends Component {
   };
 
   onTouchStartScrollable = event => {
-    document.addEventListener("touchmove", this.onTouchMoveScrollable, false);
-
-    document.addEventListener("touchend", this.onTouchEndScrollable, false);
+    document.addEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
+    document.addEventListener("touchend", this.onTouchEndScrollable, { passive: false });
 
     if (this.state.location === "about") {
       // xDown = event.touches[0].clientX;
@@ -1292,19 +1291,20 @@ class Home extends Component {
     if (this.state.location === "about") {
       var yUp = event.touches[0].clientY;
       var yDiff = yDown - yUp;
-      cssScene.position.y += yDiff * 0.2;
-      cssScene.position.clampScalar(-5, 200);
+      cssScene.position.y += yDiff * 0.5;
+      cssScene.position.clampScalar(-5, 100);
     }
   };
 
   onTouchEndScrollable = e => {
-    document.removeEventListener("touchmove", this.onTouchMoveScrollable);
-    document.removeEventListener("touchend", this.onTouchEndScrollable);
+    document.removeEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
+    document.removeEventListener("touchend", this.onTouchEndScrollable, { passive: false });
   };
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.onWindowResize);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener("resize", this.onWindowResize);
+  // }
+
   render() {
     return <div ref={this.mount} />;
   }
