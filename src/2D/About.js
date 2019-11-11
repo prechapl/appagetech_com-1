@@ -66,7 +66,6 @@ class About extends Component {
     const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
     const paddingX = windowAspect > 1 ? 130 : 80;
     const strongTextSize = windowAspect > 1 ? 36 : 28;
-    // const variableWidth = windowAspect > 1 ? "64vw" : "100vw";
     const marginX = windowAspect > 1 ? 0 : -110;
 
     const { isVisible, isOpen } = this.state;
@@ -82,7 +81,9 @@ class About extends Component {
                 marginTop: marginTop,
                 marginLeft: marginX,
                 marginRight: marginX,
-                overscrollBehaviorY: "contain"
+                overscrollBehaviorY: "contain",
+                overflowY: "scroll",
+                webkitOverflowScrolling: "touch"
               }}
             >
               <div style={{ paddingTop: 100, marginBottom: 30 }}>
@@ -99,7 +100,6 @@ class About extends Component {
                     marginBottom: 30,
                     paddingLeft: paddingX,
                     paddingRight: paddingX
-                    // width: variableWidth
                   }}
                 >
                   <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>

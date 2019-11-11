@@ -236,11 +236,9 @@ class Home extends Component {
   createCssRenderer = () => {
     var cssRenderer = new CSS3DRenderer();
     cssRenderer.setSize(window.innerWidth, window.innerHeight);
-    // cssRenderer.antialias = true;
     cssRenderer.domElement.style.position = "fixed";
     cssRenderer.domElement.style.zIndex = -1;
     cssRenderer.domElement.style.top = offsetTopCssPosition;
-    console.log("created cssRenderer");
     return cssRenderer;
   };
 
@@ -267,7 +265,6 @@ class Home extends Component {
   };
 
   initialize = () => {
-    console.log("init fired");
     camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.25, 4000);
     camera.position.set(0, 0, 224);
     camera.lookAt(0, 0, 0);
@@ -296,7 +293,7 @@ class Home extends Component {
 
     window.addEventListener("resize", this.onWindowResize, false);
     document.addEventListener("mousemove", this.onDocumentMouseMove, false);
-    document.addEventListener("touchstart", this.onTouchStartScrollable, { passive: false });
+    document.addEventListener("touchstart", this.onTouchStartScrollable, false);
     document.addEventListener("mousedown", this.onDocumentMouseDown, false);
     window.addEventListener("wheel", this.onMouseWheel, false);
 
@@ -1294,19 +1291,20 @@ class Home extends Component {
     if (this.state.location === "about") {
       var yUp = event.touches[0].clientY;
       var yDiff = yDown - yUp;
-      cssScene.position.y += yDiff * 0.1;
-      cssScene.position.clampScalar(-5, 200);
+      cssScene.position.y += yDiff * 0.5;
+      cssScene.position.clampScalar(-5, 100);
     }
   };
 
   onTouchEndScrollable = e => {
-    document.removeEventListener("touchmove", this.onTouchMoveScrollable);
-    document.removeEventListener("touchend", this.onTouchEndScrollable);
+    document.removeEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
+    document.removeEventListener("touchend", this.onTouchEndScrollable, { passive: false });
   };
 
   // componentWillUnmount() {
   //   window.removeEventListener("resize", this.onWindowResize);
   // }
+
   render() {
     return <div ref={this.mount} />;
   }
