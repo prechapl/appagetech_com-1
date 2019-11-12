@@ -1,179 +1,235 @@
-import React, { Component, Fragment } from "react";
-import posed, { PoseGroup } from "react-pose";
-import SplitText from "react-pose-text";
+import React, { Component } from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Container from "react-bootstrap/Container";
+import Carousel from "react-bootstrap/Carousel";
 
-const Modal = posed.div({
-  enter: {
-    y: 0,
-    opacity: 1,
-    delay: 1000,
-    transition: {
-      y: { type: "spring", stiffness: 1000, damping: 15 },
-      default: { duration: 1000 }
-    }
-  },
-  exit: {
-    y: 100,
-    opacity: 0,
-    transition: { duration: 150 }
-  }
-});
-
-const Sidebar = posed.ul({
-  open: {
-    x: "0",
-    delayChildren: 20,
-    staggerChildren: 200
-  },
-  closed: { x: "-600%", delay: 300 }
-});
-
-const Item = posed.li({
-  open: { y: 0, opacity: 1 },
-  closed: { y: 40, opacity: 0 }
-});
-
-const charPoses = {
-  exit: { opacity: 0, y: 20 },
-  enter: {
-    opacity: 1,
-    y: 0,
-    delay: ({ charIndex }) => charIndex * 100
-  }
-};
+const screenShotAnimation = [
+  "images/berlandAnimations/ScreenShots_Berland_700-1.png",
+  "images/berlandAnimations/ScreenShots_Berland_700-2.png",
+  "images/berlandAnimations/ScreenShots_Berland_700-3.png",
+  "images/berlandAnimations/ScreenShots_Berland_700-4.png",
+  "images/berlandAnimations/ScreenShots_Berland_700-5.png",
+  "images/berlandAnimations/ScreenShots_Berland_700-6.png",
+  "images/berlandAnimations/ScreenShots_Berland_700-7.png"
+];
+const iphoneAnimation = [
+  "images/berlandAnimations/IphoneBerland_smart-w300-20.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-19.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-18.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-17.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-16.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-15.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-14.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-13.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-12.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-11.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-10.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-9.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-8.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-7.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-6.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-5.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-4.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-3.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-2.png",
+  "images/berlandAnimations/IphoneBerland_smart-w300-1.png"
+];
 
 class About extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isVisible: false, isOpen: false };
+  constructor() {
+    super();
+    this.state = { isVisible: false };
   }
-
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        isVisible: !this.state.isVisible
-      });
-    }, 700);
-    setTimeout(this.toggle, 2800);
+    this.setState({ isVisible: true });
   }
 
-  toggle = () => this.setState({ isOpen: !this.state.isOpen });
+  onHide() {
+    this.setState({ isVisible: false });
+  }
 
   render() {
     const windowAspect = window.innerWidth / window.innerHeight;
-    const marginTop = windowAspect > 1 ? 80 : 500;
-    const textSize = windowAspect > 1 ? 20 : 24;
-    const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
-    const paddingX = windowAspect > 1 ? 130 : 80;
-    const strongTextSize = windowAspect > 1 ? 36 : 28;
-    const marginX = windowAspect > 1 ? 0 : -110;
-
-    const { isVisible, isOpen } = this.state;
-
-    return (
-      <Fragment>
-        <PoseGroup>
-          {isVisible && (
-            // If animating more than one child, each needs a `key`
-            <Modal
-              key="modal"
-              style={{
-                marginTop: marginTop,
-                marginLeft: marginX,
-                marginRight: marginX
-                // overscrollBehaviorY: "smooth",
-                // overflowY: "scroll",
-                // webkitOverflowScrolling: "touch"
-              }}
-            >
-              <div style={{ paddingTop: 100, marginBottom: 30 }}>
-                <img src="images/Figures-By-Donna-05-Centered.png" width="100%" height="auto" alt="" />
-              </div>
-
-              <div className="row justify-content-center">
-                <div
-                  className="lead"
+    const { isVisible } = this.state;
+    return isVisible ? (
+      <Modal onHide={this.onHide} size="xl">
+        <Modal.Header
+          style={{
+            border: "1px solid #575757",
+            backgroundColor: "black",
+            color: "white",
+            padding: 0,
+            margin: 0
+          }}
+          closeButton
+        >
+          <Container style={{ alignItems: "center", marginBottom: 20, padding: 0 }}>
+            <Row style={{ justifyContent: "center" }}>
+              <Col md={4} sm={12}>
+                <Row style={{ justifyContent: "center" }}>
+                  <Modal.Title
+                    as={"h1"}
+                    style={{
+                      fontFamily: "co-headline, sans-serif",
+                      fontWeight: 700,
+                      fontStyle: "normal",
+                      marginTop: 3
+                    }}
+                  >
+                    App Age
+                  </Modal.Title>
+                </Row>
+              </Col>
+              <Col style={{ padding: 0, marginBottom: 0, marginTop: 0 }}>
+                <Modal.Title
+                  as={"h4"}
                   style={{
-                    fontSize: textSize,
-                    lineHeight: lineSpace,
-                    textAlign: "justify",
-                    marginBottom: 30,
-                    paddingLeft: paddingX,
-                    paddingRight: paddingX
+                    fontFamily: "mrs-eaves-xl-serif, serif",
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    marginTop: 12,
+                    marginLeft: "auto",
+                    marginRight: "auto"
                   }}
                 >
-                  <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
-                    <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>
-                      App Age Technologies
-                    </SplitText>
-                  </span>
-                  produces software that informs, entertains, solves problems and enriches lives. Co-founders William
-                  Griffin and Preston Chaplin bring unique and impressive professional experiences to this vanguard
-                  software development company. Decades of experience in digital imaging and high-profile advertising
-                  production provides assurance that your brand will be presented in the best possible light via App Age
-                  software. Extensive experience manipulating highly technical data for the financial industry and
-                  providing financial consulting for businesses big and small ensures that App Age can tackle complex
-                  technical challenges and advise clients of any size on the best paths to success. From microsites to
-                  distributed mobile apps, we’re software developers devoted to delivering success in surprising ways.
-                </div>
-              </div>
-
-              <div
-                className="row"
-                style={{ display: "flex", justifyContent: "space-evenly", backgroundColor: "black", color: "white" }}
-              >
-                <div>
-                  <Sidebar
+                  <a
+                    href="https://toddberland.com"
+                    target="_blank"
+                    rel="noreferrer noopener"
                     style={{
-                      padding: "20px",
-                      flexDirection: "column",
-                      listStyle: "none"
+                      textDecoration: "none",
+                      color: "white"
                     }}
-                    pose={isOpen ? "open" : "closed"}
                   >
-                    <Item className="item">
-                      <h2>Services</h2>
-                    </Item>
-                    <Item className="item">Web Development</Item>
-                    <Item className="item">iOS Development</Item>
-                    <Item className="item">Android Development</Item>
-                    <Item className="item">Tech Product Design</Item>
-                    <Item className="item">Frontend Web Creation</Item>
-                    <Item className="item">Backend Engineering</Item>
-                    <Item className="item">Cloud services</Item>
-                    <Item className="item">Process Automation</Item>
-                    <Item className="item">Web Animations</Item>
-                    <Item className="item">Interactive 3D Elements</Item>
-                    <Item className="item">3D Modeling</Item>
-                    <Item className="item">Photo Retouching</Item>
-                    <Item className="item">Photography</Item>
-                  </Sidebar>
-                </div>
+                    toddberland.com
+                  </a>
+                </Modal.Title>
+              </Col>
+              <Col style={{ padding: 0, marginBottom: 0, marginTop: 0 }}>
+                <Modal.Title
+                  as={"p"}
+                  style={{
+                    fontFamily: "co-text, sans-serif",
+                    fontWeight: 300,
+                    fontStyle: "normal",
+                    fontSize: 12,
+                    marginTop: 12,
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    ailgnItems: "center"
+                  }}
+                >
+                  Launched August 2019
+                </Modal.Title>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Header>
+        <Modal.Body style={{ border: "1px solid #575757" }}>
+          <Container
+            style={{
+              fontSize: 16,
+              marginTop: 12,
+              justifyContent: "center",
+              padding: 0,
+              margin: 0
+            }}
+          >
+            <Col>
+              <Row className="justify-content-center mb-5">
+                <Col sm={8} md={4}>
+                  <Carousel
+                    as={"container"}
+                    pauseOnHover={false}
+                    interval={1500}
+                    controls={true}
+                    indicators={true}
+                    fade={true}
+                  >
+                    {iphoneAnimation.map(imgSrc => (
+                      <Carousel.Item key={imgSrc}>
+                        <img src={imgSrc} alt="" style={{ width: 300 }} />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </Col>
+              </Row>
 
-                <div>
-                  <Sidebar
-                    style={{
-                      padding: "20px",
-                      flexDirection: "column",
-                      listStyle: "none"
-                    }}
-                    pose={isOpen ? "open" : "closed"}
+              <Row style={{ justifyContent: "center", marginBottom: 25 }}>
+                <Col xs={12} lg={8}>
+                  <Carousel
+                    pauseOnHover={false}
+                    interval={1500}
+                    controls={true}
+                    indicators={true}
+                    fade={true}
+                    className="shadow"
                   >
-                    <Item className="item">
-                      <h2>Engagement</h2>
-                    </Item>
-                    <Item className="item">Fixed Price Contract</Item>
-                    <Item className="item">Hourly Development Work</Item>
-                    <Item className="item">Equity Based Partnerships</Item>
-                    <Item className="item">Project Specific Consulting</Item>
-                  </Sidebar>
-                </div>
-              </div>
-            </Modal>
-          )}
-        </PoseGroup>
-      </Fragment>
-    );
+                    {screenShotAnimation.map(imgSrc => (
+                      <Carousel.Item key={imgSrc}>
+                        {windowAspect > 1 ? (
+                          <img src={imgSrc} alt="" style={{ width: 700 }} /> //web
+                        ) : (
+                          <img src={imgSrc} alt="" style={{ width: 300 }} /> //mobile
+                        )}
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </Col>
+              </Row>
+              <Row style={{ justifyContent: "center", marginBottom: 12 }}>
+                <h4>Challenge</h4>
+              </Row>
+              <Row style={{ justifyContent: "center", marginBottom: 20 }}>
+                <p>
+                  Build a clean, modern, mobile-friendly site to engage patients, listeners, and people interested in
+                  his work.
+                </p>
+              </Row>
+
+              <Row style={{ justifyContent: "center", marginBottom: 12 }}>
+                <h4>Solution</h4>
+              </Row>
+              <Row style={{ marginBottom: 20, justifyContent: "center" }}>
+                <Col xs={12} md={10}>
+                  <p style={{ textIndent: 40 }}>
+                    From the ground up, we created a single page web app that showcases Dr. Berland's work and
+                    expertise. We were inspired by his original content, so our design focused on highlighting this
+                    work. We accomplished this through the creation of intuitive UI components, limiting of unnecessary
+                    visual adornments, and frame based styling.
+                  </p>
+                </Col>
+              </Row>
+              <Row style={{ justifyContent: "center", marginBottom: 12 }}>
+                <h4>Features</h4>
+              </Row>
+              <Row style={{ justifyContent: "center", marginBottom: 20 }}>
+                <ul>
+                  <li>Bespoke web design</li>
+                  <li>Single Page Application</li>
+                  <li>Twitter, Instagram, ResearchGate, Mapbox Integration</li>
+                </ul>
+              </Row>
+            </Col>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer
+          style={{
+            border: "1px solid #575757",
+            justifyContent: "center",
+            backgroundColor: "black",
+            color: "white"
+          }}
+        >
+          <Button variant="outline-secondary" onClick={this.onHide}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    ) : null;
   }
 }
 

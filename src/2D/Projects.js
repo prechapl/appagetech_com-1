@@ -34,7 +34,7 @@ class Projects extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBerlandDetail: false,
+      showBerlandDetail: true,
       showTodaysIposDetail: false,
       isHovered: false
     };

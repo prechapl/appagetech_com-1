@@ -386,12 +386,12 @@ class Home extends Component {
           }
         });
 
-        plane = this.createPlane(
-          window.innerWidth,
-          window.innerHeight,
-          new THREE.Vector3(0, 0, 214),
-          new THREE.Vector3(0, 0, 0)
-        );
+        // plane = this.createPlane(
+        //   window.innerWidth,
+        //   window.innerHeight,
+        //   new THREE.Vector3(0, 0, 214),
+        //   new THREE.Vector3(0, 0, 0)
+        // );
         glScene.add(plane);
         cssRenderer.domElement.style.zIndex = 0;
         // Pushes location to URL bar
@@ -1259,8 +1259,8 @@ class Home extends Component {
   };
 
   onTouchStartScrollable = event => {
-    document.addEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
-    document.addEventListener("touchend", this.onTouchEndScrollable, { passive: false });
+    // document.addEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
+    // document.addEventListener("touchend", this.onTouchEndScrollable, { passive: false });
 
     if (this.state.location === "about") {
       // xDown = event.touches[0].clientX;
@@ -1296,10 +1296,10 @@ class Home extends Component {
     }
   };
 
-  onTouchEndScrollable = e => {
-    document.removeEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
-    document.removeEventListener("touchend", this.onTouchEndScrollable, { passive: false });
-  };
+  // onTouchEndScrollable = e => {
+  //   document.removeEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
+  //   document.removeEventListener("touchend", this.onTouchEndScrollable, { passive: false });
+  // };
 
   // componentWillUnmount() {
   //   window.removeEventListener("resize", this.onWindowResize);
