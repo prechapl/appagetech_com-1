@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import posed, { PoseGroup } from "react-pose";
-import SplitText from "react-pose-text";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
@@ -10,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const Modal = posed.div({
   enter: {
@@ -48,12 +46,8 @@ class Contact extends Component {
 
   render() {
     const windowAspect = window.innerWidth / window.innerHeight;
-    const marginTop = windowAspect > 1 ? -260 : -350;
-    const textSize = windowAspect > 1 ? 20 : 24;
-    const lineSpace = windowAspect > 1 ? 2.3 : 1.8;
-    const paddingX = windowAspect > 1 ? 130 : 80;
-    const strongTextSize = windowAspect > 1 ? 36 : 28;
-    const marginX = windowAspect > 1 ? 0 : -110;
+    const marginTop = windowAspect > 1 ? -400 : -200;
+    const colPadding = windowAspect > 1 ? 50 : 20;
 
     const { isVisible } = this.state;
 
@@ -65,33 +59,35 @@ class Contact extends Component {
             <Modal
               key="modal"
               style={{
-                marginTop: marginTop
+                marginTop: marginTop,
+                display: "flex",
+                flexDirection: "column"
+                // backgroundColor: "red"
+                // direction: "row"
               }}
             >
-              <Row>
+              <Row className="justify-content-center">
                 <Col
-                  className="align-items-center"
                   style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginBottom: 3
+                    padding: colPadding
                   }}
                 >
-                  <Row className="mb-1">
+                  <Row className="justify-content-center">
                     <Image
                       src="images/Will_SlackProfilePic.jpg"
                       roundedCircle
                       width="170px"
                       height="170px"
+                      style={{ border: "4px solid" }}
                     ></Image>
                   </Row>
-                  <Row>
+                  <Row className="justify-content-center">
                     <h4>William Griffin</h4>
                   </Row>
-                  <Row>
+                  <Row className="justify-content-center">
                     <i>Los Angeles, California</i>
                   </Row>
-                  <Row>
+                  <Row className="justify-content-center">
                     <a href={`mailto:william@appagetech.com`}>
                       william@appagetech.com
                     </a>
@@ -99,44 +95,82 @@ class Contact extends Component {
                 </Col>
 
                 <Col
-                  className="align-items-center"
                   style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginBottom: 2
+                    padding: colPadding
                   }}
                 >
-                  <Row className="mb-1">
+                  <Row className="justify-content-center">
                     <Image
                       src="images/Preston_BW_profilePic2.jpg"
                       roundedCircle
                       width="170px"
                       height="170px"
+                      style={{ border: "4px solid" }}
                     ></Image>
                   </Row>
-                  <Row>
+                  <Row className="justify-content-center">
                     <h4>Preston Chaplin</h4>
                   </Row>
-                  <Row>
+                  <Row className="justify-content-center">
                     <i>New York, New York</i>
                   </Row>
-                  <Row>
+                  <Row className="justify-content-center">
                     <a href={`mailto:preston@appagetech.com`}>
                       preston@appagetech.com
                     </a>
                   </Row>
                 </Col>
-                <div className="w-100"></div>
-                <Row>
+              </Row>
+
+              <Row>
+                <Col></Col>
+                <Col>
                   <ContactForm
                     toggleLockNavigation={this.props.toggleLockNavigation}
                   />
-                  <Button>
-                    <FontAwesomeIcon icon={faTwitterSquare} size="7x" />
+                </Col>
+                <Col></Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button
+                    href="https://www.instagram.com/appagetechnologies/"
+                    target="_blank"
+                    variant="light"
+                  >
+                    <FontAwesomeIcon
+                      icon={faInstagram}
+                      size="4x"
+                      color="black"
+                    />
                   </Button>
-                  <FontAwesomeIcon icon={faInstagram} size="7x" />
-                  <FontAwesomeIcon icon={faFacebookSquare} size="7x" />
-                </Row>
+                </Col>
+                <Col>
+                  <Button
+                    href="https://twitter.com/age_app"
+                    target="_blank"
+                    variant="light"
+                  >
+                    <FontAwesomeIcon
+                      icon={faTwitterSquare}
+                      size="4x"
+                      color="black"
+                    />
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    href="https://www.facebook.com/App-Age-Technologies-109527830463591/?modal=admin_todo_tour"
+                    target="_blank"
+                    variant="light"
+                  >
+                    <FontAwesomeIcon
+                      icon={faFacebookSquare}
+                      size="4x"
+                      color="black"
+                    />
+                  </Button>
+                </Col>
               </Row>
             </Modal>
           )}

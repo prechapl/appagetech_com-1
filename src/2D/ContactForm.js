@@ -10,10 +10,9 @@ import Modal from "react-bootstrap/Modal";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-// import ContactFormSendPopup from './ContactFormSendPopup';
 import Terms from "./Terms";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelopeSquare } from "@fortawesome/free-solid-svg-icons";
 
 const ContactSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -53,17 +52,8 @@ class ContactForm extends Component {
   render() {
     return (
       <div>
-        <Button
-          //   variant="black"
-          className="align-self-center shadow"
-          onClick={this.handleShow}
-          //   size="sm"
-          style={{
-            borderRadius: 10,
-            backgroundColor: "black"
-          }}
-        >
-          <FontAwesomeIcon icon={faEnvelope} size="6x" />
+        <Button variant="light" onClick={this.handleShow}>
+          <FontAwesomeIcon icon={faEnvelopeSquare} size="4x" color="black" />
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
