@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import * as THREE from "three";
-import { CSS3DRenderer, CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer.js";
+import {
+  CSS3DRenderer,
+  CSS3DObject
+} from "three/examples/jsm/renderers/CSS3DRenderer.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { EquirectangularToCubeGenerator } from "three/examples/jsm/loaders/EquirectangularToCubeGenerator.js";
@@ -265,7 +268,12 @@ class Home extends Component {
   };
 
   initialize = () => {
-    camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.25, 4000);
+    camera = new THREE.PerspectiveCamera(
+      30,
+      window.innerWidth / window.innerHeight,
+      0.25,
+      4000
+    );
     camera.position.set(0, 0, 224);
     camera.lookAt(0, 0, 0);
     glRenderer = this.createGlRenderer();
@@ -279,7 +287,11 @@ class Home extends Component {
     cssScene.scale.set(0.11, 0.11, 0.11);
 
     // Landing scene
-    landingScene = new LandingTransition(glRenderer, 0xffffff, this.toggleTransition);
+    landingScene = new LandingTransition(
+      glRenderer,
+      0xffffff,
+      this.toggleTransition
+    );
 
     reactComponents.forEach(item => {
       let element = document.createElement("div");
@@ -293,7 +305,9 @@ class Home extends Component {
 
     window.addEventListener("resize", this.onWindowResize, false);
     document.addEventListener("mousemove", this.onDocumentMouseMove, false);
-    document.addEventListener("touchstart", this.onTouchStartScrollable, false);
+    document.addEventListener("touchstart", this.onTouchStartScrollable, {
+      passive: true
+    });
     document.addEventListener("mousedown", this.onDocumentMouseDown, false);
     window.addEventListener("wheel", this.onMouseWheel, false);
 
@@ -313,7 +327,9 @@ class Home extends Component {
         showWater: true,
         location: "home"
       });
-      Object.entries(reactComponentsObj).forEach(([key, value]) => (value.position.z = offScreenZPosition2D));
+      Object.entries(reactComponentsObj).forEach(
+        ([key, value]) => (value.position.z = offScreenZPosition2D)
+      );
       // Pushes location back to home
       if (this.props.location.pathname !== `/home`) {
         this.props.history.push(`/home`);
@@ -335,8 +351,10 @@ class Home extends Component {
 
   // Show react component
   showReactComponent = reactComponentName => {
+    console.log("showReactComponent");
     // Checking for navigation lock as a result of 2D component rendering
     if (this.state.lockNavigation === false) {
+      console.log("showReactComponent2");
       // Checks a second click: is the CSS renderer is visible
       if (
         parseInt(cssRenderer.domElement.style.zIndex, 10) === 0 &&
@@ -349,19 +367,24 @@ class Home extends Component {
       ) {
         this.props.history.push(`/${reactComponentName}`);
         // Sets current css object to offscreen
-        cssScene.position.y = 0;
-        reactComponentsObj[this.state.cssComponentDisplayed].position.z = offScreenZPosition2D;
+        // cssScene.position.y = 0;
+        reactComponentsObj[
+          this.state.cssComponentDisplayed
+        ].position.z = offScreenZPosition2D;
         // Brings forward selected css object
         reactComponentsObj[reactComponentName].position.z = zPosition2D;
         // Sets state with the name of the currently displayed object
-        this.setState({ cssComponentDisplayed: reactComponentName, location: reactComponentName });
+        this.setState({
+          cssComponentDisplayed: reactComponentName,
+          location: reactComponentName
+        });
 
         // Pushes location to URL bar
         if (this.props.location.pathname !== `/${reactComponentName}`) {
           this.props.history.push(`/${reactComponentName}`);
         }
       } else {
-        cssScene.position.y = 0;
+        // cssScene.position.y = 0;
         reactComponentsObj[reactComponentName].position.z = zPosition2D;
         // Try TWEEN function
         this.transform(1000);
@@ -427,7 +450,9 @@ class Home extends Component {
         const hdrEnvMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
 
         const emissiveMapLoader = new THREE.TextureLoader();
-        const emissiveMap = emissiveMapLoader.load("textures/EmissiveMap_01.png");
+        const emissiveMap = emissiveMapLoader.load(
+          "textures/EmissiveMap_01.png"
+        );
         emissiveMap.anisotropy = 16;
 
         // Models
@@ -473,7 +498,9 @@ class Home extends Component {
           if (navPosition === "top") {
             logoType.position.x = navbarPlacement[placementDirection].logo.x;
             logoType.position.y = navbarPlacement[placementDirection].logo.y;
-            logoType.scale.copy(navbarPlacement[placementDirection].logoType.scale);
+            logoType.scale.copy(
+              navbarPlacement[placementDirection].logoType.scale
+            );
           }
         });
 
@@ -515,9 +542,13 @@ class Home extends Component {
           gltf.scene.position.z = zPos;
           gltf.scene.rotation.z = zRot;
           if (navPosition === "top") {
-            contactType.position.x = navbarPlacement[placementDirection].contact.x;
-            contactType.position.y = navbarPlacement[placementDirection].contact.y;
-            contactType.scale.copy(navbarPlacement[placementDirection].contactType.scale);
+            contactType.position.x =
+              navbarPlacement[placementDirection].contact.x;
+            contactType.position.y =
+              navbarPlacement[placementDirection].contact.y;
+            contactType.scale.copy(
+              navbarPlacement[placementDirection].contactType.scale
+            );
           }
         });
 
@@ -538,7 +569,9 @@ class Home extends Component {
           if (navPosition === "top") {
             contact.position.x = navbarPlacement[placementDirection].contact.x;
             contact.position.y = navbarPlacement[placementDirection].contact.y;
-            contact.scale.copy(navbarPlacement[placementDirection].contact.scale);
+            contact.scale.copy(
+              navbarPlacement[placementDirection].contact.scale
+            );
             contact.material.opacity = 0;
           }
           contact.callback = () => showReactComponent("contact");
@@ -561,7 +594,9 @@ class Home extends Component {
           if (navPosition === "top") {
             aboutType.position.x = navbarPlacement[placementDirection].about.x;
             aboutType.position.y = navbarPlacement[placementDirection].about.y;
-            aboutType.scale.copy(navbarPlacement[placementDirection].aboutType.scale);
+            aboutType.scale.copy(
+              navbarPlacement[placementDirection].aboutType.scale
+            );
           }
         });
 
@@ -603,9 +638,13 @@ class Home extends Component {
           gltf.scene.rotation.z = zRot;
           glScene.add(gltf.scene);
           if (navPosition === "top") {
-            projectsType.position.x = navbarPlacement[placementDirection].projects.x;
-            projectsType.position.y = navbarPlacement[placementDirection].projects.y;
-            projectsType.scale.copy(navbarPlacement[placementDirection].projectsType.scale);
+            projectsType.position.x =
+              navbarPlacement[placementDirection].projects.x;
+            projectsType.position.y =
+              navbarPlacement[placementDirection].projects.y;
+            projectsType.scale.copy(
+              navbarPlacement[placementDirection].projectsType.scale
+            );
           }
         });
 
@@ -624,9 +663,13 @@ class Home extends Component {
           gltf.scene.rotation.z = zRot;
           glScene.add(gltf.scene);
           if (navPosition === "top") {
-            projects.position.x = navbarPlacement[placementDirection].projects.x;
-            projects.position.y = navbarPlacement[placementDirection].projects.y;
-            projects.scale.copy(navbarPlacement[placementDirection].projects.scale);
+            projects.position.x =
+              navbarPlacement[placementDirection].projects.x;
+            projects.position.y =
+              navbarPlacement[placementDirection].projects.y;
+            projects.scale.copy(
+              navbarPlacement[placementDirection].projects.scale
+            );
             projects.material.opacity = 0;
           }
           projects.callback = () => showReactComponent("projects");
@@ -647,9 +690,13 @@ class Home extends Component {
           gltf.scene.rotation.z = zRot;
           glScene.add(gltf.scene);
           if (navPosition === "top") {
-            clientType.position.x = navbarPlacement[placementDirection].client.x;
-            clientType.position.y = navbarPlacement[placementDirection].client.y;
-            clientType.scale.copy(navbarPlacement[placementDirection].clientType.scale);
+            clientType.position.x =
+              navbarPlacement[placementDirection].client.x;
+            clientType.position.y =
+              navbarPlacement[placementDirection].client.y;
+            clientType.scale.copy(
+              navbarPlacement[placementDirection].clientType.scale
+            );
           }
         });
 
@@ -683,7 +730,12 @@ class Home extends Component {
   initWater = () => {
     const zPos = this.state.showWater ? 0 : -5000;
     const materialColor = 0x000000;
-    var geometry = new THREE.PlaneBufferGeometry(BOUNDS, BOUNDS, WIDTH - 1, WIDTH - 1);
+    var geometry = new THREE.PlaneBufferGeometry(
+      BOUNDS,
+      BOUNDS,
+      WIDTH - 1,
+      WIDTH - 1
+    );
     var material = new THREE.ShaderMaterial({
       uniforms: THREE.UniformsUtils.merge([
         THREE.ShaderLib["phong"].uniforms,
@@ -712,7 +764,10 @@ class Home extends Component {
     waterMesh.updateMatrix();
     glScene.add(waterMesh);
     var geometryRay = new THREE.PlaneBufferGeometry(BOUNDS, BOUNDS, 1, 1);
-    meshRay = new THREE.Mesh(geometryRay, new THREE.MeshBasicMaterial({ color: 0xffffff, visible: false }));
+    meshRay = new THREE.Mesh(
+      geometryRay,
+      new THREE.MeshBasicMaterial({ color: 0xffffff, visible: false })
+    );
     meshRay.matrixAutoUpdate = false;
     meshRay.updateMatrix();
     glScene.add(meshRay);
@@ -742,7 +797,9 @@ class Home extends Component {
     }
 
     gpuCompute.compute();
-    waterUniforms["heightmap"].value = gpuCompute.getCurrentRenderTarget(heightmapVariable).texture;
+    waterUniforms["heightmap"].value = gpuCompute.getCurrentRenderTarget(
+      heightmapVariable
+    ).texture;
   };
 
   fillTexture = texture => {
@@ -777,7 +834,15 @@ class Home extends Component {
   transform = duration => {
     TWEEN.removeAll();
 
-    if (logo && logoType && contact && projects && projectsType && client && about) {
+    if (
+      logo &&
+      logoType &&
+      contact &&
+      projects &&
+      projectsType &&
+      client &&
+      about
+    ) {
       // Deep copy of the navbarPlacement
       const tempNavbarPlacement = JSON.parse(JSON.stringify(navbarPlacement));
       // Corrects target locations on hard refresh
@@ -786,28 +851,62 @@ class Home extends Component {
         navbarPlacement[placementDirection].about.x = 0;
         navbarPlacement[placementDirection].about.y = 0;
         navbarPlacement[placementDirection].about.z = 0;
-        navbarPlacement[placementDirection].about.scale = new THREE.Vector3(1, 1, 1);
-        navbarPlacement[placementDirection].aboutType.scale = new THREE.Vector3(1, 1, 1);
+        navbarPlacement[placementDirection].about.scale = new THREE.Vector3(
+          1,
+          1,
+          1
+        );
+        navbarPlacement[placementDirection].aboutType.scale = new THREE.Vector3(
+          1,
+          1,
+          1
+        );
         navbarPlacement[placementDirection].contact.x = 0;
         navbarPlacement[placementDirection].contact.y = 0;
         navbarPlacement[placementDirection].contact.z = 0;
-        navbarPlacement[placementDirection].contact.scale = new THREE.Vector3(1, 1, 1);
-        navbarPlacement[placementDirection].contactType.scale = new THREE.Vector3(1, 1, 1);
+        navbarPlacement[placementDirection].contact.scale = new THREE.Vector3(
+          1,
+          1,
+          1
+        );
+        navbarPlacement[
+          placementDirection
+        ].contactType.scale = new THREE.Vector3(1, 1, 1);
         navbarPlacement[placementDirection].projects.x = 0;
         navbarPlacement[placementDirection].projects.y = 0;
         navbarPlacement[placementDirection].projects.z = 0;
-        navbarPlacement[placementDirection].projects.scale = new THREE.Vector3(1, 1, 1);
-        navbarPlacement[placementDirection].projectsType.scale = new THREE.Vector3(1, 1, 1);
+        navbarPlacement[placementDirection].projects.scale = new THREE.Vector3(
+          1,
+          1,
+          1
+        );
+        navbarPlacement[
+          placementDirection
+        ].projectsType.scale = new THREE.Vector3(1, 1, 1);
         navbarPlacement[placementDirection].client.x = 0;
         navbarPlacement[placementDirection].client.y = 0;
         navbarPlacement[placementDirection].client.z = 0;
-        navbarPlacement[placementDirection].client.scale = new THREE.Vector3(1, 1, 1);
-        navbarPlacement[placementDirection].clientType.scale = new THREE.Vector3(1, 1, 1);
+        navbarPlacement[placementDirection].client.scale = new THREE.Vector3(
+          1,
+          1,
+          1
+        );
+        navbarPlacement[
+          placementDirection
+        ].clientType.scale = new THREE.Vector3(1, 1, 1);
         navbarPlacement[placementDirection].logo.x = 0;
         navbarPlacement[placementDirection].logo.y = 0;
         navbarPlacement[placementDirection].logo.z = 0;
-        navbarPlacement[placementDirection].logo.scale = new THREE.Vector3(1.3, 1.3, 1.3);
-        navbarPlacement[placementDirection].logoType.scale = new THREE.Vector3(1.3, 1.3, 1.3);
+        navbarPlacement[placementDirection].logo.scale = new THREE.Vector3(
+          1.3,
+          1.3,
+          1.3
+        );
+        navbarPlacement[placementDirection].logoType.scale = new THREE.Vector3(
+          1.3,
+          1.3,
+          1.3
+        );
       }
 
       const moveEasingFunction = TWEEN.Easing.Elastic.Out;
@@ -972,7 +1071,9 @@ class Home extends Component {
         .start();
 
       if (this.state.navPosition === "top") {
-        navbarPlacement[placementDirection] = { ...tempNavbarPlacement[placementDirection] };
+        navbarPlacement[placementDirection] = {
+          ...tempNavbarPlacement[placementDirection]
+        };
         this.setState({ navPosition: "middle" });
       } else {
         // Individual icon settings
@@ -1000,7 +1101,9 @@ class Home extends Component {
           client.scale.y,
           client.scale.z
         );
-        navbarPlacement[placementDirection].clientType.scale = new THREE.Vector3(
+        navbarPlacement[
+          placementDirection
+        ].clientType.scale = new THREE.Vector3(
           clientType.scale.x,
           clientType.scale.y,
           clientType.scale.z
@@ -1014,7 +1117,9 @@ class Home extends Component {
           projects.scale.y,
           projects.scale.z
         );
-        navbarPlacement[placementDirection].projectsType.scale = new THREE.Vector3(
+        navbarPlacement[
+          placementDirection
+        ].projectsType.scale = new THREE.Vector3(
           projectsType.scale.x,
           projectsType.scale.y,
           projectsType.scale.z
@@ -1028,7 +1133,9 @@ class Home extends Component {
           contact.scale.y,
           contact.scale.z
         );
-        navbarPlacement[placementDirection].contactType.scale = new THREE.Vector3(
+        navbarPlacement[
+          placementDirection
+        ].contactType.scale = new THREE.Vector3(
           contactType.scale.x,
           contactType.scale.y,
           contactType.scale.z
@@ -1037,7 +1144,11 @@ class Home extends Component {
         navbarPlacement[placementDirection].logo.y = logo.position.y;
         navbarPlacement[placementDirection].logo.z = logo.position.z;
         // Set new scales for icons
-        navbarPlacement[placementDirection].logo.scale = new THREE.Vector3(logo.scale.x, logo.scale.y, logo.scale.z);
+        navbarPlacement[placementDirection].logo.scale = new THREE.Vector3(
+          logo.scale.x,
+          logo.scale.y,
+          logo.scale.z
+        );
         navbarPlacement[placementDirection].logoType.scale = new THREE.Vector3(
           logoType.scale.x,
           logoType.scale.y,
@@ -1068,7 +1179,10 @@ class Home extends Component {
         const clientElement = document.getElementById("client");
         ReactDOM.render(<Client />, clientElement);
         const contactElement = document.getElementById("contact");
-        ReactDOM.render(<Contact toggleLockNavigation={this.toggleLockNavigation} />, contactElement);
+        ReactDOM.render(
+          <Contact toggleLockNavigation={this.toggleLockNavigation} />,
+          contactElement
+        );
         const projectsElement = document.getElementById("projects");
         ReactDOM.render(<Projects />, projectsElement);
         this.setState({ reactComponentsMounted: true });
@@ -1100,7 +1214,13 @@ class Home extends Component {
         mouseMoved = false;
 
         // raycast buttons
-        const intersectButtons = raycaster.intersectObjects([logo, about, contact, projects, client]);
+        const intersectButtons = raycaster.intersectObjects([
+          logo,
+          about,
+          contact,
+          projects,
+          client
+        ]);
         // 2D
         if (this.state.show2D) {
           if (intersectButtons.length > 0) {
@@ -1208,7 +1328,9 @@ class Home extends Component {
       // Checks the if update function needs to move the navbar based on click and component statefulness
       TWEEN.update();
       if (this.state.showWater) {
-        waterUniforms["heightmap"].value = gpuCompute.getCurrentRenderTarget(heightmapVariable).texture;
+        waterUniforms["heightmap"].value = gpuCompute.getCurrentRenderTarget(
+          heightmapVariable
+        ).texture;
         gpuCompute.compute();
       }
     }
@@ -1228,7 +1350,13 @@ class Home extends Component {
       if (logo && about && contact && projects && client) {
         this.setMouseCoords(event.clientX, event.clientY);
         raycaster.setFromCamera(mouseCoords, camera);
-        const intersectButtonsMd = raycaster.intersectObjects([logo, about, contact, projects, client]);
+        const intersectButtonsMd = raycaster.intersectObjects([
+          logo,
+          about,
+          contact,
+          projects,
+          client
+        ]);
         if (intersectButtonsMd.length > 0) {
           camera.position.x = 0;
           if (intersectButtonsMd[0].object.callback) {
@@ -1242,7 +1370,10 @@ class Home extends Component {
   };
 
   setMouseCoords = (x, y) => {
-    mouseCoords.set((x / glRenderer.domElement.clientWidth) * 2 - 1, -(y / glRenderer.domElement.clientHeight) * 2 + 1);
+    mouseCoords.set(
+      (x / glRenderer.domElement.clientWidth) * 2 - 1,
+      -(y / glRenderer.domElement.clientHeight) * 2 + 1
+    );
     mouseMoved = true;
   };
 
@@ -1259,8 +1390,12 @@ class Home extends Component {
   };
 
   onTouchStartScrollable = event => {
-    document.addEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
-    document.addEventListener("touchend", this.onTouchEndScrollable, { passive: false });
+    document.addEventListener("touchmove", this.onTouchMoveScrollable, {
+      passive: true
+    });
+    document.addEventListener("touchend", this.onTouchEndScrollable, {
+      passive: true
+    });
 
     if (this.state.location === "about") {
       // xDown = event.touches[0].clientX;
@@ -1273,7 +1408,13 @@ class Home extends Component {
 
       if (logo && about && contact && projects && client) {
         raycaster.setFromCamera(mouseCoords, camera);
-        const intersectButtonsMd = raycaster.intersectObjects([logo, about, contact, projects, client]);
+        const intersectButtonsMd = raycaster.intersectObjects([
+          logo,
+          about,
+          contact,
+          projects,
+          client
+        ]);
         if (intersectButtonsMd.length > 0) {
           if (intersectButtonsMd[0].object.callback) {
             camera.position.x = 0;
@@ -1291,14 +1432,18 @@ class Home extends Component {
     if (this.state.location === "about") {
       var yUp = event.touches[0].clientY;
       var yDiff = yDown - yUp;
-      cssScene.position.y += yDiff * 0.5;
+      cssScene.position.y += yDiff * 0.1;
       cssScene.position.clampScalar(-5, 100);
     }
   };
 
   onTouchEndScrollable = e => {
-    document.removeEventListener("touchmove", this.onTouchMoveScrollable, { passive: false });
-    document.removeEventListener("touchend", this.onTouchEndScrollable, { passive: false });
+    document.removeEventListener("touchmove", this.onTouchMoveScrollable, {
+      passive: false
+    });
+    document.removeEventListener("touchend", this.onTouchEndScrollable, {
+      passive: false
+    });
   };
 
   // componentWillUnmount() {
