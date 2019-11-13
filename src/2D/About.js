@@ -87,7 +87,12 @@ class About extends Component {
               }}
             >
               <div style={{ paddingTop: 100, marginBottom: 30 }}>
-                <img src="images/Figures-By-Donna-05-Centered.png" width="100%" height="auto" alt="" />
+                <img
+                  src="images/Figures-By-Donna-05-Centered.png"
+                  width="100%"
+                  height="auto"
+                  alt=""
+                />
               </div>
 
               <div className="row justify-content-center">
@@ -102,27 +107,46 @@ class About extends Component {
                     paddingRight: paddingX
                   }}
                 >
-                  <span style={{ fontSize: strongTextSize, fontWeight: 700, marginRight: 10 }}>
-                    <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>
+                  <span
+                    style={{
+                      fontSize: strongTextSize,
+                      fontWeight: 700,
+                      marginRight: 10
+                    }}
+                  >
+                    <SplitText
+                      initialPose="exit"
+                      pose="enter"
+                      charPoses={charPoses}
+                    >
                       App Age Technologies
                     </SplitText>
                   </span>
-                  produces software that informs, entertains, solves problems and enriches lives. Co-founders William
-                  Griffin and Preston Chaplin bring unique and impressive professional experiences to this vanguard
-                  software development company. Decades of experience in digital imaging and high-profile advertising
-                  production provides assurance that your brand will be presented in the best possible light via App Age
-                  software. Extensive experience manipulating highly technical data for the financial industry and
-                  providing financial consulting for businesses big and small ensures that App Age can tackle complex
-                  technical challenges and advise clients of any size on the best paths to success. From microsites to
-                  distributed mobile apps, we’re software developers devoted to delivering success in surprising ways.
+                  produces software that informs, entertains, solves problems
+                  and enriches lives. Co-founders William Griffin and Preston
+                  Chaplin bring unique and impressive professional experiences
+                  to this vanguard software development company. Decades of
+                  experience in digital imaging and high-profile advertising
+                  production provides assurance that your brand will be
+                  presented in the best possible light via App Age software.
+                  Extensive experience manipulating highly technical data for
+                  the financial industry and providing financial consulting for
+                  businesses big and small ensures that App Age can tackle
+                  complex technical challenges and advise clients of any size on
+                  the best paths to success. From microsites to distributed
+                  mobile apps, we’re software developers devoted to delivering
+                  success in surprising ways.
                 </div>
               </div>
 
               <div
                 className="row"
-                style={{ display: "flex", justifyContent: "space-evenly", backgroundColor: "black", color: "white" }}
+                style={{
+                  backgroundColor: "black",
+                  color: "white"
+                }}
               >
-                <div>
+                <div style={{ marginLeft: "auto", marginRight: "auto" }}>
                   <Sidebar
                     style={{
                       padding: "20px",
@@ -150,7 +174,7 @@ class About extends Component {
                   </Sidebar>
                 </div>
 
-                <div>
+                <div style={{ marginLeft: "auto", marginRight: "auto" }}>
                   <Sidebar
                     style={{
                       padding: "20px",
